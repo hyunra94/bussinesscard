@@ -237,14 +237,10 @@
     <p>명함 사진을 찍으면 AI가 인식해서 노션 DB에 바로 저장해요</p>
   </header>
 
-  <!-- 설정 -->
   <button class="toggle-btn" id="toggle-btn" onclick="toggleSettings()">▸ 노션 설정 (Worker URL · 토큰 · DB ID)</button>
   <div id="settings-panel" style="display:none;" class="card">
     <div class="setting-row">
-      <label class="setting-label">
-        Cloudflare Worker URL
-        <span class="setting-note"> — Claude 인식 + 노션 저장 모두 여기를 통해요</span>
-      </label>
+      <label class="setting-label">Cloudflare Worker URL <span class="setting-note">— Claude 인식 + 노션 저장 모두 여기를 통해요</span></label>
       <input class="setting-input" id="cf-url" type="text" placeholder="https://your-worker.workers.dev" />
     </div>
     <div class="setting-row">
@@ -261,7 +257,6 @@
     <div id="settings-status"></div>
   </div>
 
-  <!-- 업로드 -->
   <div class="section-label">명함 업로드</div>
   <div class="card">
     <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleFile(this.files[0])" />
@@ -284,11 +279,9 @@
     </div>
   </div>
 
-  <!-- 결과 -->
   <div id="result-section" style="display:none;">
     <div class="section-label">인식 결과 확인 & 수정</div>
     <div class="card">
-
       <div class="field-row">
         <div class="field-meta"><div class="field-label">Name</div><div class="field-sub">이름 + 직책</div></div>
         <input class="field-input" id="f-name" placeholder="홍길동 팀장" />
@@ -309,7 +302,6 @@
         <div class="field-meta"><div class="field-label">Email</div></div>
         <input class="field-input" id="f-email" type="email" placeholder="hello@example.com" />
       </div>
-
       <div class="field-row">
         <div class="field-meta"><div class="field-label">Category</div><div class="field-sub">분류 선택</div></div>
         <div class="category-chips" id="category-chips">
@@ -322,7 +314,6 @@
           <button class="chip" data-val="기타" onclick="selectChip(this)">기타</button>
         </div>
       </div>
-
       <div class="field-row">
         <div class="field-meta"><div class="field-label">Notes</div><div class="field-sub">개인 메모</div></div>
         <textarea class="field-input" id="f-notes" placeholder="어디서 만났는지, 특이사항 등..."></textarea>
@@ -334,7 +325,6 @@
           <label for="f-card">명함 보유</label>
         </div>
       </div>
-
       <hr class="divider" />
       <div class="btn-row">
         <button class="btn btn-primary" onclick="sendToNotion()">
@@ -459,16 +449,46 @@ JSON 형식:
       })
     });
 
-    const data  = await resp.json();
+    // 응답 텍스트 먼저 받기
+    const rawText = await resp.text();
+
+    // 응답이 정상인지 확인
+    if (!resp.ok) {
+      status.innerHTML = `<div class="status error">API 오류 (${resp.status}): ${rawText}</div>`;
+      return;
+    }
+
+    // JSON 파싱
+    let data;
+    try {
+      data = JSON.parse(rawText);
+    } catch(e) {
+      status.innerHTML = `<div class="status error">응답 파싱 실패: ${rawText.slice(0, 200)}</div>`;
+      return;
+    }
+
+    // content 필드 확인
+    if (!data.content || !Array.isArray(data.content)) {
+      status.innerHTML = `<div class="status error">예상치 못한 응답: ${JSON.stringify(data).slice(0, 200)}</div>`;
+      return;
+    }
+
     const text  = data.content.map(i => i.text || '').join('');
     const clean = text.replace(/```json|```/g, '').trim();
-    const p     = JSON.parse(clean);
 
-    document.getElementById('f-name').value        = p.name        || '';
-    document.getElementById('f-companyname').value = p.companyname || '';
-    document.getElementById('f-company').value     = p.company     || '';
-    document.getElementById('f-phone').value       = p.phone       || '';
-    document.getElementById('f-email').value       = p.email       || '';
+    let parsed;
+    try {
+      parsed = JSON.parse(clean);
+    } catch(e) {
+      status.innerHTML = `<div class="status error">JSON 파싱 실패: ${clean.slice(0, 200)}</div>`;
+      return;
+    }
+
+    document.getElementById('f-name').value        = parsed.name        || '';
+    document.getElementById('f-companyname').value = parsed.companyname || '';
+    document.getElementById('f-company').value     = parsed.company     || '';
+    document.getElementById('f-phone').value       = parsed.phone       || '';
+    document.getElementById('f-email').value       = parsed.email       || '';
     document.getElementById('f-notes').value       = '';
     document.getElementById('f-card').checked      = true;
     selectedCategory = null;
@@ -476,8 +496,9 @@ JSON 형식:
 
     document.getElementById('result-section').style.display = 'block';
     status.innerHTML = '<div class="status success">인식 완료! 내용을 확인하고 수정하세요.</div>';
+
   } catch (err) {
-    status.innerHTML = `<div class="status error">오류: ${err.message}<br><small>Worker URL과 CLAUDE_API_KEY 환경변수를 확인해주세요.</small></div>`;
+    status.innerHTML = `<div class="status error">오류: ${err.message}</div>`;
   } finally {
     spinner.style.display = 'none';
   }
