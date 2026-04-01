@@ -413,6 +413,17 @@
   <!-- 업로드 -->
   <div class="section">
     <div class="section-label">명함 촬영</div>
+
+    <!-- vFlat 바로가기 -->
+    <a id="vflat-btn" href="vflat://" onclick="handleVFlat(event)"
+      style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:var(--radius-md);padding:14px 18px;margin-bottom:10px;box-shadow:0 2px 12px rgba(139,115,85,0.08);text-decoration:none;color:var(--text);">
+      <div style="width:40px;height:40px;border-radius:10px;background:var(--beige);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">📄</div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:600;color:var(--text);">vFlat으로 스캔하기</div>
+      </div>
+      <div style="font-size:18px;color:var(--text3);">→</div>
+    </a>
+
     <div class="card" style="padding:0;overflow:hidden;">
       <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleFile(this.files[0])" />
       <div class="upload-zone" id="drop-zone"
@@ -534,6 +545,28 @@
 let imageBase64 = null;
 let imageMime = 'image/jpeg';
 let selectedCategory = null;
+
+function handleVFlat(e) {
+  e.preventDefault();
+  const isIOS     = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isAndroid = /android/i.test(navigator.userAgent);
+
+  if (isIOS) {
+    // 앱 딥링크 시도 후 1.5초 안에 앱 안 열리면 앱스토어로
+    window.location.href = 'vflat://';
+    setTimeout(() => {
+      window.location.href = 'https://apps.apple.com/kr/app/vflat-scan-pdf-scanner/id1494512368';
+    }, 1500);
+  } else if (isAndroid) {
+    window.location.href = 'vflat://';
+    setTimeout(() => {
+      window.location.href = 'https://play.google.com/store/apps/details?id=com.voyagerx.scanner';
+    }, 1500);
+  } else {
+    // PC면 그냥 안내
+    alert('vFlat은 모바일 앱이에요. 휴대폰에서 접속해주세요!');
+  }
+}
 
 function getSettings() {
   return JSON.parse(localStorage.getItem('bcard_settings') || '{}');
