@@ -2,342 +2,534 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>명함 OCR → 노션</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>명함 스캐너</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600&display=swap');
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #ffffff;
-      --bg2: #f7f7f5;
-      --bg3: #f0f0ec;
-      --border: rgba(0,0,0,0.1);
-      --border2: rgba(0,0,0,0.2);
-      --text: #1a1a1a;
-      --text2: #6b6b6b;
-      --text3: #999;
-      --radius: 10px;
-      --radius-sm: 7px;
-      --success-bg: #eaf3de;
-      --success-text: #3b6d11;
-      --error-bg: #fcebeb;
-      --error-text: #a32d2d;
-      --info-bg: #e6f1fb;
-      --info-border: #85b7eb;
+      --cream:   #FAF7F2;
+      --beige:   #F2EDE4;
+      --beige2:  #E8E0D3;
+      --beige3:  #D9CEBF;
+      --brown:   #8B7355;
+      --brown2:  #6B5840;
+      --text:    #2C2416;
+      --text2:   #7A6A55;
+      --text3:   #A89880;
+      --accent:  #C4956A;
+      --accent2: #B07D52;
+      --success-bg:   #EEF5E8;
+      --success-text: #4A7A2A;
+      --error-bg:     #FAF0EE;
+      --error-text:   #A03020;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
     }
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #1a1a1a;
-        --bg2: #242424;
-        --bg3: #2e2e2e;
-        --border: rgba(255,255,255,0.1);
-        --border2: rgba(255,255,255,0.2);
-        --text: #f0f0f0;
-        --text2: #aaa;
-        --text3: #666;
-        --success-bg: #173404;
-        --success-text: #c0dd97;
-        --error-bg: #501313;
-        --error-text: #f09595;
-        --info-bg: #042c53;
-        --info-border: #378add;
-      }
-    }
+    html { background: var(--cream); }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
-      background: var(--bg3);
+      font-family: 'Noto Sans KR', -apple-system, sans-serif;
+      background: var(--cream);
       color: var(--text);
       min-height: 100vh;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 2rem 1rem 4rem;
+      padding: 0 0 80px;
     }
 
-    .wrap { width: 100%; max-width: 560px; }
-
-    header { margin-bottom: 1.5rem; }
-    header h1 { font-size: 20px; font-weight: 600; }
-    header p  { font-size: 13px; color: var(--text2); margin-top: 4px; }
-
-    .card {
-      background: var(--bg);
-      border: 0.5px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      margin-bottom: 1rem;
+    /* 헤더 */
+    .app-header {
+      background: var(--beige);
+      border-bottom: 1px solid var(--beige2);
+      padding: 52px 20px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .app-header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.3px;
+    }
+    .app-header p {
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 3px;
+      font-weight: 300;
     }
 
+    /* 섹션 */
+    .section { padding: 0 16px; margin-top: 20px; }
     .section-label {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       color: var(--text3);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       margin-bottom: 10px;
+      padding-left: 4px;
     }
 
-    .toggle-btn {
-      font-size: 13px;
+    /* 카드 */
+    .card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: 0 2px 12px rgba(139,115,85,0.08);
+      margin-bottom: 12px;
+    }
+
+    /* 설정 토글 */
+    .settings-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
       color: var(--text2);
       cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0;
-      font-family: inherit;
-      margin-bottom: 10px;
-    }
-    .toggle-btn:hover { color: var(--text); }
-
-    .setting-row { margin-bottom: 10px; }
-    .setting-label { font-size: 12px; color: var(--text2); margin-bottom: 4px; display: block; }
-    .setting-note  { font-size: 11px; color: var(--text3); }
-    .setting-input {
-      width: 100%;
-      padding: 8px 10px;
-      font-size: 13px;
-      border: 0.5px solid var(--border2);
-      border-radius: var(--radius-sm);
-      background: var(--bg2);
-      color: var(--text);
-      font-family: 'SF Mono', 'Fira Mono', monospace;
-    }
-    .setting-input:focus { outline: none; border-color: var(--text2); }
-
-    .upload-zone {
-      border: 1.5px dashed var(--border2);
-      border-radius: var(--radius);
-      padding: 2.5rem 1rem;
-      text-align: center;
-      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(139,115,85,0.08);
+      margin-bottom: 12px;
       transition: background 0.15s;
     }
-    .upload-zone:hover, .upload-zone.drag { background: var(--info-bg); border-color: var(--info-border); }
+    .settings-toggle:hover { background: var(--beige); }
+    .settings-toggle .icon {
+      width: 28px; height: 28px;
+      background: var(--beige);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    .settings-toggle .left { display: flex; align-items: center; gap: 10px; }
+    .settings-toggle .arrow { font-size: 12px; color: var(--text3); transition: transform 0.2s; }
+    .settings-toggle.open .arrow { transform: rotate(180deg); }
 
+    /* 설정 입력 */
+    .setting-row { margin-bottom: 14px; }
+    .setting-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .setting-input {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 13px;
+      border: 1.5px solid var(--beige2);
+      border-radius: var(--radius-sm);
+      background: var(--beige);
+      color: var(--text);
+      font-family: 'SF Mono', monospace;
+      transition: border-color 0.15s;
+    }
+    .setting-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: #fff;
+    }
+
+    /* 업로드 존 */
+    .upload-zone {
+      border: 2px dashed var(--beige3);
+      border-radius: var(--radius-md);
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--beige);
+    }
+    .upload-zone:hover, .upload-zone.drag {
+      border-color: var(--accent);
+      background: #FDF6EE;
+    }
+    .upload-zone .upload-emoji {
+      font-size: 40px;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .upload-zone .upload-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .upload-zone .upload-sub {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 5px;
+      font-weight: 300;
+    }
+
+    /* 미리보기 */
     #preview-img {
       width: 100%;
-      max-height: 220px;
+      max-height: 200px;
       object-fit: contain;
       border-radius: var(--radius-sm);
-      margin-bottom: 1rem;
+      margin-bottom: 14px;
       display: none;
+      background: var(--beige);
     }
 
-    .field-row {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      align-items: start;
-      gap: 8px;
-      margin-bottom: 10px;
+    /* 필드 */
+    .field-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--beige);
     }
-    .field-meta  { padding-top: 8px; }
-    .field-label { font-size: 13px; color: var(--text2); }
-    .field-sub   { font-size: 11px; color: var(--text3); margin-top: 2px; }
+    .field-item:last-of-type { border-bottom: none; }
+    .field-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--beige);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .field-right { flex: 1; min-width: 0; }
+    .field-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
     .field-input {
       width: 100%;
-      padding: 7px 10px;
-      font-size: 14px;
-      border: 0.5px solid var(--border2);
-      border-radius: var(--radius-sm);
-      background: var(--bg2);
-      color: var(--text);
-      font-family: inherit;
-    }
-    .field-input:focus { outline: none; border-color: var(--text2); background: var(--bg); }
-    textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.5; }
-
-    .category-chips { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 6px; }
-    .chip {
-      padding: 5px 13px;
-      border-radius: 999px;
-      font-size: 13px;
-      cursor: pointer;
-      border: 1px solid var(--border2);
-      background: var(--bg2);
-      color: var(--text2);
-      font-family: inherit;
-      transition: all 0.12s;
-    }
-    .chip:hover { border-color: var(--text2); color: var(--text); }
-    .chip.selected { font-weight: 500; }
-    .chip[data-val="업체"].selected      { background:#FAECE7; color:#993C1D; border-color:#F0997B; }
-    .chip[data-val="기관"].selected      { background:#FBEAF0; color:#993556; border-color:#ED93B1; }
-    .chip[data-val="협약기업"].selected   { background:#E1F5EE; color:#0F6E56; border-color:#5DCAA5; }
-    .chip[data-val="플랫폼 사업단"].selected { background:#FAEEDA; color:#854F0B; border-color:#EF9F27; }
-    .chip[data-val="플랫폼 기관"].selected  { background:#E6F1FB; color:#185FA5; border-color:#85B7EB; }
-    .chip[data-val="명함"].selected      { background:#EEEDFE; color:#534AB7; border-color:#AFA9EC; }
-    .chip[data-val="기타"].selected      { background:var(--bg3); color:var(--text); border-color:var(--text2); }
-
-    @media (prefers-color-scheme: dark) {
-      .chip[data-val="업체"].selected      { background:#4A1B0C; color:#F5C4B3; border-color:#D85A30; }
-      .chip[data-val="기관"].selected      { background:#4B1528; color:#F4C0D1; border-color:#D4537E; }
-      .chip[data-val="협약기업"].selected   { background:#04342C; color:#9FE1CB; border-color:#1D9E75; }
-      .chip[data-val="플랫폼 사업단"].selected { background:#412402; color:#FAC775; border-color:#BA7517; }
-      .chip[data-val="플랫폼 기관"].selected  { background:#042C53; color:#B5D4F4; border-color:#378ADD; }
-      .chip[data-val="명함"].selected      { background:#26215C; color:#CECBF6; border-color:#7F77DD; }
-    }
-
-    .check-row { display: flex; align-items: center; gap: 8px; padding-top: 6px; }
-    .check-row input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--text); }
-    .check-row label { font-size: 13px; color: var(--text2); cursor: pointer; }
-
-    .divider { border: none; border-top: 0.5px solid var(--border); margin: 1rem 0; }
-
-    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      font-size: 14px;
-      border: 0.5px solid var(--border2);
-      border-radius: var(--radius-sm);
+      padding: 8px 0;
+      font-size: 15px;
+      border: none;
+      border-bottom: 1.5px solid var(--beige2);
+      border-radius: 0;
       background: transparent;
       color: var(--text);
-      cursor: pointer;
-      font-family: inherit;
-      font-weight: 500;
-      transition: background 0.12s;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 400;
+      transition: border-color 0.15s;
     }
-    .btn:hover { background: var(--bg2); }
-    .btn:active { transform: scale(0.98); }
-    .btn-primary { background: var(--text); color: var(--bg); border-color: transparent; }
-    .btn-primary:hover { opacity: 0.85; background: var(--text); }
+    .field-input:focus {
+      outline: none;
+      border-bottom-color: var(--accent);
+    }
+    .field-input::placeholder { color: var(--beige3); }
+    textarea.field-input {
+      resize: none;
+      min-height: 60px;
+      line-height: 1.6;
+    }
 
+    /* 카테고리 칩 */
+    .chips-wrap { display: flex; flex-wrap: wrap; gap: 7px; padding: 8px 0 4px; }
+    .chip {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1.5px solid var(--beige2);
+      background: var(--beige);
+      color: var(--text2);
+      font-family: 'Noto Sans KR', sans-serif;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); }
+    .chip.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .chip[data-val="업체"].selected      { background:#D4724A; border-color:#D4724A; }
+    .chip[data-val="기관"].selected      { background:#B85C7A; border-color:#B85C7A; }
+    .chip[data-val="협약기업"].selected   { background:#4A9070; border-color:#4A9070; }
+    .chip[data-val="플랫폼 사업단"].selected { background:#C4894A; border-color:#C4894A; }
+    .chip[data-val="플랫폼 기관"].selected  { background:#4A74B0; border-color:#4A74B0; }
+    .chip[data-val="명함"].selected      { background:#7060C0; border-color:#7060C0; }
+    .chip[data-val="기타"].selected      { background:#6B5840; border-color:#6B5840; }
+
+    /* 체크박스 */
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0 4px;
+    }
+    .check-row input[type=checkbox] {
+      width: 20px; height: 20px;
+      cursor: pointer;
+      accent-color: var(--accent);
+      border-radius: 6px;
+    }
+    .check-row label {
+      font-size: 14px;
+      color: var(--text2);
+      cursor: pointer;
+    }
+
+    /* 버튼 */
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s, transform 0.1s;
+      letter-spacing: -0.2px;
+    }
+    .btn-primary:hover  { background: var(--accent2); }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: transparent;
+      color: var(--text2);
+      border: 1.5px solid var(--beige2);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 8px;
+    }
+    .btn-secondary:hover { background: var(--beige); border-color: var(--beige3); }
+
+    .btn-save-small {
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 4px;
+    }
+    .btn-save-small:hover { background: var(--accent2); }
+
+    /* 상태 메시지 */
     .status {
       font-size: 13px;
-      padding: 8px 12px;
+      padding: 12px 16px;
       border-radius: var(--radius-sm);
-      margin-top: 10px;
-      line-height: 1.5;
+      margin-top: 12px;
+      line-height: 1.6;
+      font-weight: 400;
     }
-    .status.loading { background: var(--bg2);        color: var(--text2);        }
+    .status.loading { background: var(--beige); color: var(--text2); }
     .status.success { background: var(--success-bg); color: var(--success-text); }
-    .status.error   { background: var(--error-bg);   color: var(--error-text);   }
+    .status.error   { background: var(--error-bg);  color: var(--error-text); }
 
+    /* 스피너 */
     .spinner {
       display: inline-block;
-      width: 14px; height: 14px;
-      border: 2px solid var(--border2);
-      border-top-color: var(--text2);
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
       vertical-align: middle;
     }
+    .spinner.dark {
+      border: 2px solid var(--beige2);
+      border-top-color: var(--accent);
+    }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 구분선 */
+    .divider { border: none; border-top: 1px solid var(--beige); margin: 16px 0; }
+
+    /* 뱃지 */
+    .done-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--success-text);
+      background: var(--success-bg);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
   </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <h1>📇 명함 OCR → 노션</h1>
-    <p>명함 사진을 찍으면 AI가 인식해서 노션 DB에 바로 저장해요</p>
-  </header>
-
-  <button class="toggle-btn" id="toggle-btn" onclick="toggleSettings()">▸ 노션 설정 (Worker URL · 토큰 · DB ID)</button>
-  <div id="settings-panel" style="display:none;" class="card">
-    <div class="setting-row">
-      <label class="setting-label">Cloudflare Worker URL <span class="setting-note">— Claude 인식 + 노션 저장 모두 여기를 통해요</span></label>
-      <input class="setting-input" id="cf-url" type="text" placeholder="https://your-worker.workers.dev" />
-    </div>
-    <div class="setting-row">
-      <label class="setting-label">Notion Integration Token</label>
-      <input class="setting-input" id="notion-token" type="password" placeholder="secret_xxxxxxxxxxxxxxxxxxxx" />
-    </div>
-    <div class="setting-row">
-      <label class="setting-label">Database ID</label>
-      <input class="setting-input" id="notion-db" type="text" placeholder="32자리 DB ID" />
-    </div>
-    <div class="btn-row" style="margin-top:4px;">
-      <button class="btn btn-primary" onclick="saveSettings()">저장</button>
-    </div>
-    <div id="settings-status"></div>
+  <div class="app-header">
+    <h1>📇 명함 스캐너</h1>
+    <p>사진 한 장으로 노션에 바로 저장</p>
   </div>
 
-  <div class="section-label">명함 업로드</div>
-  <div class="card">
-    <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleFile(this.files[0])" />
-    <div class="upload-zone" id="drop-zone"
-      onclick="document.getElementById('file-input').click()"
-      ondragover="event.preventDefault();this.classList.add('drag')"
-      ondragleave="this.classList.remove('drag')"
-      ondrop="event.preventDefault();this.classList.remove('drag');handleFile(event.dataTransfer.files[0])">
-      <div style="font-size:32px;margin-bottom:10px;">📷</div>
-      <div style="font-size:15px;font-weight:500;">명함 이미지를 올려주세요</div>
-      <div style="font-size:13px;color:var(--text2);margin-top:4px;">클릭하거나 드래그 & 드롭 · JPG, PNG, HEIC</div>
+  <!-- 설정 -->
+  <div class="section">
+    <button class="settings-toggle" id="toggle-btn" onclick="toggleSettings()">
+      <div class="left">
+        <div class="icon">⚙️</div>
+        <span id="toggle-label">노션 연동 설정</span>
+      </div>
+      <span class="arrow">▼</span>
+    </button>
+    <div id="settings-panel" style="display:none;" class="card">
+      <div class="setting-row">
+        <label class="setting-label">Cloudflare Worker URL</label>
+        <input class="setting-input" id="cf-url" type="text" placeholder="https://your-worker.workers.dev" />
+      </div>
+      <div class="setting-row">
+        <label class="setting-label">Notion Token</label>
+        <input class="setting-input" id="notion-token" type="password" placeholder="secret_xxxxxxxxxxxxxxxxxxxx" />
+      </div>
+      <div class="setting-row">
+        <label class="setting-label">Database ID</label>
+        <input class="setting-input" id="notion-db" type="text" placeholder="32자리 DB ID" />
+      </div>
+      <button class="btn-save-small" onclick="saveSettings()">저장</button>
+      <div id="settings-status"></div>
     </div>
-    <img id="preview-img" />
-    <div id="ocr-status"></div>
-    <div class="btn-row" style="margin-top:10px;display:none;" id="action-btns">
-      <button class="btn btn-primary" onclick="runOCR()">
+  </div>
+
+  <!-- 업로드 -->
+  <div class="section">
+    <div class="section-label">명함 촬영</div>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleFile(this.files[0])" />
+      <div class="upload-zone" id="drop-zone"
+        onclick="document.getElementById('file-input').click()"
+        ondragover="event.preventDefault();this.classList.add('drag')"
+        ondragleave="this.classList.remove('drag')"
+        ondrop="event.preventDefault();this.classList.remove('drag');handleFile(event.dataTransfer.files[0])"
+        style="border-radius:0;border:none;">
+        <span class="upload-emoji">📷</span>
+        <div class="upload-title">탭해서 명함 촬영 또는 선택</div>
+        <div class="upload-sub">JPG · PNG · HEIC 지원</div>
+      </div>
+    </div>
+
+    <div id="preview-card" style="display:none;" class="card">
+      <img id="preview-img" style="display:block;" />
+      <div id="ocr-status"></div>
+      <button class="btn-primary" onclick="runOCR()" style="margin-top:4px;">
         <span class="spinner" id="ocr-spinner" style="display:none;"></span>
-        AI로 명함 인식
+        <span id="ocr-btn-text">✨ AI로 명함 인식하기</span>
       </button>
+      <button class="btn-secondary" onclick="resetAll()">다시 선택</button>
     </div>
   </div>
 
+  <!-- 결과 -->
   <div id="result-section" style="display:none;">
-    <div class="section-label">인식 결과 확인 & 수정</div>
-    <div class="card">
-      <div class="field-row">
-        <div class="field-meta"><div class="field-label">Name</div><div class="field-sub">이름 + 직책</div></div>
-        <input class="field-input" id="f-name" placeholder="홍길동 팀장" />
-      </div>
-      <div class="field-row">
-        <div class="field-meta"><div class="field-label">Companyname</div><div class="field-sub">회사명 (Title)</div></div>
-        <input class="field-input" id="f-companyname" placeholder="(주)전주MBC" />
-      </div>
-      <div class="field-row">
-        <div class="field-meta"><div class="field-label">Company</div><div class="field-sub">부서 / 팀명</div></div>
-        <input class="field-input" id="f-company" placeholder="국비사업부서" />
-      </div>
-      <div class="field-row">
-        <div class="field-meta"><div class="field-label">Phone</div></div>
-        <input class="field-input" id="f-phone" placeholder="010-0000-0000" />
-      </div>
-      <div class="field-row">
-        <div class="field-meta"><div class="field-label">Email</div></div>
-        <input class="field-input" id="f-email" type="email" placeholder="hello@example.com" />
-      </div>
-      <div class="field-row">
-        <div class="field-meta"><div class="field-label">Category</div><div class="field-sub">분류 선택</div></div>
-        <div class="category-chips" id="category-chips">
-          <button class="chip" data-val="업체" onclick="selectChip(this)">업체</button>
-          <button class="chip" data-val="기관" onclick="selectChip(this)">기관</button>
-          <button class="chip" data-val="협약기업" onclick="selectChip(this)">협약기업</button>
-          <button class="chip" data-val="플랫폼 사업단" onclick="selectChip(this)">플랫폼 사업단</button>
-          <button class="chip" data-val="플랫폼 기관" onclick="selectChip(this)">플랫폼 기관</button>
-          <button class="chip" data-val="명함" onclick="selectChip(this)">명함</button>
-          <button class="chip" data-val="기타" onclick="selectChip(this)">기타</button>
+    <div class="section">
+      <div class="section-label">인식 결과</div>
+      <div class="card">
+
+        <div class="field-item">
+          <div class="field-icon">👤</div>
+          <div class="field-right">
+            <div class="field-label">이름 · 직책</div>
+            <input class="field-input" id="f-name" placeholder="홍길동 팀장" />
+          </div>
         </div>
-      </div>
-      <div class="field-row">
-        <div class="field-meta"><div class="field-label">Notes</div><div class="field-sub">개인 메모</div></div>
-        <textarea class="field-input" id="f-notes" placeholder="어디서 만났는지, 특이사항 등..."></textarea>
-      </div>
-      <div class="field-row">
-        <div class="field-meta"><div class="field-label">card</div></div>
-        <div class="check-row">
-          <input type="checkbox" id="f-card" checked />
-          <label for="f-card">명함 보유</label>
+
+        <div class="field-item">
+          <div class="field-icon">🏢</div>
+          <div class="field-right">
+            <div class="field-label">회사명</div>
+            <input class="field-input" id="f-companyname" placeholder="(주)전주MBC" />
+          </div>
         </div>
+
+        <div class="field-item">
+          <div class="field-icon">🗂️</div>
+          <div class="field-right">
+            <div class="field-label">부서 / 팀</div>
+            <input class="field-input" id="f-company" placeholder="국비사업부서" />
+          </div>
+        </div>
+
+        <div class="field-item">
+          <div class="field-icon">📞</div>
+          <div class="field-right">
+            <div class="field-label">전화번호</div>
+            <input class="field-input" id="f-phone" placeholder="010-0000-0000" />
+          </div>
+        </div>
+
+        <div class="field-item">
+          <div class="field-icon">✉️</div>
+          <div class="field-right">
+            <div class="field-label">이메일</div>
+            <input class="field-input" id="f-email" type="email" placeholder="hello@example.com" />
+          </div>
+        </div>
+
+        <div class="field-item">
+          <div class="field-icon">🏷️</div>
+          <div class="field-right">
+            <div class="field-label">카테고리</div>
+            <div class="chips-wrap" id="category-chips">
+              <button class="chip" data-val="업체" onclick="selectChip(this)">업체</button>
+              <button class="chip" data-val="기관" onclick="selectChip(this)">기관</button>
+              <button class="chip" data-val="협약기업" onclick="selectChip(this)">협약기업</button>
+              <button class="chip" data-val="플랫폼 사업단" onclick="selectChip(this)">플랫폼 사업단</button>
+              <button class="chip" data-val="플랫폼 기관" onclick="selectChip(this)">플랫폼 기관</button>
+              <button class="chip" data-val="명함" onclick="selectChip(this)">명함</button>
+              <button class="chip" data-val="기타" onclick="selectChip(this)">기타</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-item">
+          <div class="field-icon">📝</div>
+          <div class="field-right">
+            <div class="field-label">메모</div>
+            <textarea class="field-input" id="f-notes" placeholder="어디서 만났는지, 특이사항 등..."></textarea>
+          </div>
+        </div>
+
+        <div class="field-item" style="border-bottom:none;">
+          <div class="field-icon">✅</div>
+          <div class="field-right">
+            <div class="field-label">명함 보유</div>
+            <div class="check-row" style="padding-top:6px;">
+              <input type="checkbox" id="f-card" checked />
+              <label for="f-card">명함 있음</label>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <hr class="divider" />
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="sendToNotion()">
-          <span class="spinner" id="save-spinner" style="display:none;"></span>
-          노션에 저장 ↗
-        </button>
-        <button class="btn" onclick="resetAll()">다시 촬영</button>
-      </div>
+
+      <button class="btn-primary" onclick="sendToNotion()">
+        <span class="spinner" id="save-spinner" style="display:none;"></span>
+        <span id="save-btn-text">노션에 저장하기 →</span>
+      </button>
+      <button class="btn-secondary" onclick="resetAll()">처음으로</button>
       <div id="notion-status"></div>
     </div>
   </div>
 
-</div>
 <script>
 let imageBase64 = null;
 let imageMime = 'image/jpeg';
@@ -362,7 +554,7 @@ function toggleSettings() {
   const btn = document.getElementById('toggle-btn');
   const open = p.style.display === 'none';
   p.style.display = open ? 'block' : 'none';
-  btn.textContent = (open ? '▾' : '▸') + ' 노션 설정 (Worker URL · 토큰 · DB ID)';
+  btn.classList.toggle('open', open);
   if (open) {
     const s = getSettings();
     if (s.cf)    document.getElementById('cf-url').value       = s.cf;
@@ -379,15 +571,17 @@ function saveSettings() {
   };
   localStorage.setItem('bcard_settings', JSON.stringify(s));
   const el = document.getElementById('settings-status');
-  el.innerHTML = '<div class="status success">저장 완료!</div>';
+  el.innerHTML = '<div class="status success">✓ 저장되었습니다</div>';
   setTimeout(() => { el.innerHTML = ''; updateToggleLabel(); }, 1500);
 }
 
 function updateToggleLabel() {
   const s = getSettings();
-  const btn = document.getElementById('toggle-btn');
+  const label = document.getElementById('toggle-label');
   if (s.cf && s.token && s.db) {
-    btn.textContent = '✓ 노션 설정 완료  (수정하려면 클릭)';
+    label.innerHTML = '노션 연동 설정 <span class="done-badge">✓ 완료</span>';
+  } else {
+    label.textContent = '노션 연동 설정';
   }
 }
 
@@ -399,10 +593,15 @@ function handleFile(file) {
     imageBase64 = e.target.result.split(',')[1];
     const img = document.getElementById('preview-img');
     img.src = e.target.result;
-    img.style.display = 'block';
-    document.getElementById('action-btns').style.display    = 'flex';
+    img.style.maxHeight = '180px';
+    img.style.objectFit = 'contain';
+    img.style.width = '100%';
+    img.style.borderRadius = '10px';
+    img.style.marginBottom = '14px';
+    document.getElementById('drop-zone').style.display  = 'none';
+    document.getElementById('preview-card').style.display = 'block';
     document.getElementById('result-section').style.display = 'none';
-    document.getElementById('ocr-status').innerHTML         = '';
+    document.getElementById('ocr-status').innerHTML = '';
   };
   reader.readAsDataURL(file);
 }
@@ -413,14 +612,16 @@ async function runOCR() {
   if (!s.cf) {
     document.getElementById('ocr-status').innerHTML =
       '<div class="status error">Worker URL을 먼저 설정해주세요.</div>';
-    if (document.getElementById('settings-panel').style.display === 'none') toggleSettings();
+    toggleSettings();
     return;
   }
 
   const spinner = document.getElementById('ocr-spinner');
+  const btnText = document.getElementById('ocr-btn-text');
   const status  = document.getElementById('ocr-status');
   spinner.style.display = 'inline-block';
-  status.innerHTML = '<div class="status loading">명함을 분석하는 중...</div>';
+  btnText.textContent = '분석 중...';
+  status.innerHTML = '';
 
   try {
     const resp = await fetch(`${s.cf}/v1/messages`, {
@@ -449,38 +650,31 @@ JSON 형식:
       })
     });
 
-    // 응답 텍스트 먼저 받기
     const rawText = await resp.text();
 
-    // 응답이 정상인지 확인
     if (!resp.ok) {
       status.innerHTML = `<div class="status error">API 오류 (${resp.status}): ${rawText}</div>`;
       return;
     }
 
-    // JSON 파싱
     let data;
-    try {
-      data = JSON.parse(rawText);
-    } catch(e) {
-      status.innerHTML = `<div class="status error">응답 파싱 실패: ${rawText.slice(0, 200)}</div>`;
+    try { data = JSON.parse(rawText); }
+    catch(e) {
+      status.innerHTML = `<div class="status error">응답 파싱 실패: ${rawText.slice(0,200)}</div>`;
       return;
     }
 
-    // content 필드 확인
     if (!data.content || !Array.isArray(data.content)) {
-      status.innerHTML = `<div class="status error">예상치 못한 응답: ${JSON.stringify(data).slice(0, 200)}</div>`;
+      status.innerHTML = `<div class="status error">예상치 못한 응답: ${JSON.stringify(data).slice(0,200)}</div>`;
       return;
     }
 
     const text  = data.content.map(i => i.text || '').join('');
     const clean = text.replace(/```json|```/g, '').trim();
-
     let parsed;
-    try {
-      parsed = JSON.parse(clean);
-    } catch(e) {
-      status.innerHTML = `<div class="status error">JSON 파싱 실패: ${clean.slice(0, 200)}</div>`;
+    try { parsed = JSON.parse(clean); }
+    catch(e) {
+      status.innerHTML = `<div class="status error">JSON 파싱 실패: ${clean.slice(0,200)}</div>`;
       return;
     }
 
@@ -495,12 +689,14 @@ JSON 형식:
     document.querySelectorAll('#category-chips .chip').forEach(c => c.classList.remove('selected'));
 
     document.getElementById('result-section').style.display = 'block';
-    status.innerHTML = '<div class="status success">인식 완료! 내용을 확인하고 수정하세요.</div>';
+    document.getElementById('result-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    status.innerHTML = '<div class="status success">✓ 인식 완료! 내용을 확인하고 저장하세요.</div>';
 
   } catch (err) {
     status.innerHTML = `<div class="status error">오류: ${err.message}</div>`;
   } finally {
     spinner.style.display = 'none';
+    btnText.textContent = '✨ AI로 명함 인식하기';
   }
 }
 
@@ -508,15 +704,17 @@ async function sendToNotion() {
   const s = getSettings();
   if (!s.cf || !s.token || !s.db) {
     document.getElementById('notion-status').innerHTML =
-      '<div class="status error">노션 설정(Worker URL, 토큰, DB ID)을 먼저 입력해주세요.</div>';
-    if (document.getElementById('settings-panel').style.display === 'none') toggleSettings();
+      '<div class="status error">노션 설정을 먼저 입력해주세요.</div>';
+    toggleSettings();
     return;
   }
 
   const saveSpinner = document.getElementById('save-spinner');
+  const saveBtnText = document.getElementById('save-btn-text');
   const statusEl    = document.getElementById('notion-status');
   saveSpinner.style.display = 'inline-block';
-  statusEl.innerHTML = '<div class="status loading">저장하는 중...</div>';
+  saveBtnText.textContent   = '저장 중...';
+  statusEl.innerHTML = '';
 
   const phone = document.getElementById('f-phone').value.trim();
   const email = document.getElementById('f-email').value.trim();
@@ -543,7 +741,7 @@ async function sendToNotion() {
     });
 
     if (resp.ok) {
-      statusEl.innerHTML = '<div class="status success">노션에 저장되었습니다!</div>';
+      statusEl.innerHTML = '<div class="status success">✓ 노션에 저장되었습니다!</div>';
       setTimeout(() => {
         if (confirm('저장 완료! 다음 명함을 등록할까요?')) resetAll();
       }, 800);
@@ -552,22 +750,25 @@ async function sendToNotion() {
       statusEl.innerHTML = `<div class="status error">노션 오류: ${err.message || resp.status}</div>`;
     }
   } catch (err) {
-    statusEl.innerHTML = `<div class="status error">요청 실패: ${err.message}</div>`;
+    statusEl.innerHTML = `<div class="status error">오류: ${err.message}</div>`;
   } finally {
     saveSpinner.style.display = 'none';
+    saveBtnText.textContent   = '노션에 저장하기 →';
   }
 }
 
 function resetAll() {
   imageBase64 = null;
   selectedCategory = null;
-  document.getElementById('preview-img').style.display    = 'none';
-  document.getElementById('action-btns').style.display    = 'none';
+  document.getElementById('preview-img').src              = '';
+  document.getElementById('drop-zone').style.display      = 'block';
+  document.getElementById('preview-card').style.display   = 'none';
   document.getElementById('result-section').style.display = 'none';
   document.getElementById('ocr-status').innerHTML         = '';
   document.getElementById('notion-status').innerHTML      = '';
   document.getElementById('file-input').value             = '';
   document.querySelectorAll('#category-chips .chip').forEach(c => c.classList.remove('selected'));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 window.addEventListener('DOMContentLoaded', updateToggleLabel);
