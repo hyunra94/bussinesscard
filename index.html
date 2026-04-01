@@ -720,8 +720,8 @@ async function sendToNotion() {
   const email = document.getElementById('f-email').value.trim();
 
   const properties = {
-    "Companyname": { title:     [{ text: { content: document.getElementById('f-companyname').value } }] },
-    "Name":        { rich_text: [{ text: { content: document.getElementById('f-name').value        } }] },
+    "Name":        { title:     [{ text: { content: document.getElementById('f-name').value        } }] },
+    "Companyname": { rich_text: [{ text: { content: document.getElementById('f-companyname').value } }] },
     "Company":     { rich_text: [{ text: { content: document.getElementById('f-company').value     } }] },
     "Notes":       { rich_text: [{ text: { content: document.getElementById('f-notes').value       } }] },
     "card":        { checkbox: document.getElementById('f-card').checked }
