@@ -500,8 +500,10 @@ function selectChip(el) {
 }
 
 /* ── 설정 (문자 템플릿) ── */
+const DEFAULT_SMS_TEMPLATE = `안녕하세요 😊 전주MBC K-디지털팀 양라현입니다.\n\n──────────────\n전주MBC 디지털사업부 K디지털 TF / 책임\n전북특별자치도 전주시 완산구 선너머1길 50\nTel. 063-220-8214\nMobile. 010-6852-1811\nEmail. wwhd@jmbc.co.kr\n──────────────\n\n🪪 명함 → bit.ly/jmbcrahyun`;
+
 function getSmsTemplate() {
-  return localStorage.getItem('bcard_sms_template') || '';
+  return localStorage.getItem('bcard_sms_template') || DEFAULT_SMS_TEMPLATE;
 }
 
 function toggleSettings() {
