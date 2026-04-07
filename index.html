@@ -783,7 +783,7 @@ async function sendToNotion() {
     if (phone) properties["Phone"]    = { phone_number: phone };
     if (email) properties["Email"]    = { email: email };
     if (selectedCategory) properties["Category"] = { select: { name: selectedCategory } };
-    if (imageUrl) properties["Card Image"] = { url: imageUrl };
+    if (imageUrl) properties["Card Image"] = { files: [{ type: "external", name: "card.jpg", external: { url: imageUrl } }] };
 
     const resp = await fetch(`${s.cf}/v1/pages`, {
       method: 'POST',
