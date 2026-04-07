@@ -543,6 +543,7 @@
 
 <script>
 let imageBase64 = null;
+let imageFile = null;
 let imageMime = 'image/jpeg';
 let selectedCategory = null;
 
@@ -620,6 +621,7 @@ function updateToggleLabel() {
 
 function handleFile(file) {
   if (!file) return;
+  imageFile = file;
   imageMime = file.type || 'image/jpeg';
   const reader = new FileReader();
   reader.onload = e => {
@@ -746,24 +748,43 @@ async function sendToNotion() {
   const saveBtnText = document.getElementById('save-btn-text');
   const statusEl    = document.getElementById('notion-status');
   saveSpinner.style.display = 'inline-block';
-  saveBtnText.textContent   = '저장 중...';
+  saveBtnText.textContent   = '이미지 업로드 중...';
   statusEl.innerHTML = '';
 
-  const phone = document.getElementById('f-phone').value.trim();
-  const email = document.getElementById('f-email').value.trim();
-
-  const properties = {
-    "Name":        { title:     [{ text: { content: document.getElementById('f-name').value        } }] },
-    "Companyname": { rich_text: [{ text: { content: document.getElementById('f-companyname').value } }] },
-    "Company":     { rich_text: [{ text: { content: document.getElementById('f-company').value     } }] },
-    "Notes":       { rich_text: [{ text: { content: document.getElementById('f-notes').value       } }] },
-    "card":        { checkbox: document.getElementById('f-card').checked }
-  };
-  if (phone) properties["Phone"]    = { phone_number: phone };
-  if (email) properties["Email"]    = { email: email };
-  if (selectedCategory) properties["Category"] = { select: { name: selectedCategory } };
-
   try {
+    // 1. R2에 이미지 업로드
+    let imageUrl = null;
+    if (imageFile) {
+      const formData = new FormData();
+      formData.append('file', imageFile);
+      const imgResp = await fetch(`${s.cf}/upload/image`, {
+        method: 'POST',
+        body: formData
+      });
+      if (imgResp.ok) {
+        const imgData = await imgResp.json();
+        imageUrl = imgData.url;
+      }
+    }
+
+    saveBtnText.textContent = '노션에 저장 중...';
+
+    // 2. 노션에 저장
+    const phone = document.getElementById('f-phone').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+
+    const properties = {
+      "Name":        { title:     [{ text: { content: document.getElementById('f-name').value        } }] },
+      "Companyname": { rich_text: [{ text: { content: document.getElementById('f-companyname').value } }] },
+      "Company":     { rich_text: [{ text: { content: document.getElementById('f-company').value     } }] },
+      "Notes":       { rich_text: [{ text: { content: document.getElementById('f-notes').value       } }] },
+      "card":        { checkbox: document.getElementById('f-card').checked }
+    };
+    if (phone) properties["Phone"]    = { phone_number: phone };
+    if (email) properties["Email"]    = { email: email };
+    if (selectedCategory) properties["Category"] = { select: { name: selectedCategory } };
+    if (imageUrl) properties["Card Image"] = { url: imageUrl };
+
     const resp = await fetch(`${s.cf}/v1/pages`, {
       method: 'POST',
       headers: {
@@ -774,7 +795,7 @@ async function sendToNotion() {
     });
 
     if (resp.ok) {
-      statusEl.innerHTML = '<div class="status success">✓ 노션에 저장되었습니다!</div>';
+      statusEl.innerHTML = '<div class="status success">✓ 노션에 저장되었습니다!' + (imageUrl ? ' (이미지 포함)' : '') + '</div>';
       setTimeout(() => {
         if (confirm('저장 완료! 다음 명함을 등록할까요?')) resetAll();
       }, 800);
@@ -792,6 +813,7 @@ async function sendToNotion() {
 
 function resetAll() {
   imageBase64 = null;
+  imageFile = null;
   selectedCategory = null;
   document.getElementById('preview-img').src              = '';
   document.getElementById('drop-zone').style.display      = 'block';
