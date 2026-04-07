@@ -48,196 +48,94 @@
       top: 0;
       z-index: 10;
     }
-    .app-header h1 {
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--text);
-      letter-spacing: -0.3px;
-    }
-    .app-header p {
-      font-size: 13px;
-      color: var(--text2);
-      margin-top: 3px;
-      font-weight: 300;
-    }
+    .app-header h1 { font-size: 22px; font-weight: 600; color: var(--text); letter-spacing: -0.3px; }
+    .app-header p  { font-size: 13px; color: var(--text2); margin-top: 3px; font-weight: 300; }
 
     .section { padding: 0 16px; margin-top: 20px; }
     .section-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text3);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      padding-left: 4px;
+      font-size: 11px; font-weight: 600; color: var(--text3);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 10px; padding-left: 4px;
     }
 
     .card {
-      background: #fff;
-      border-radius: var(--radius-lg);
-      padding: 18px;
-      box-shadow: 0 2px 12px rgba(139,115,85,0.08);
-      margin-bottom: 12px;
+      background: #fff; border-radius: var(--radius-lg);
+      padding: 18px; box-shadow: 0 2px 12px rgba(139,115,85,0.08); margin-bottom: 12px;
     }
 
     .settings-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      background: #fff;
-      border: none;
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text2);
-      cursor: pointer;
-      box-shadow: 0 2px 12px rgba(139,115,85,0.08);
-      margin-bottom: 12px;
-      transition: background 0.15s;
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; background: #fff; border: none; border-radius: var(--radius-md);
+      padding: 14px 18px; font-family: inherit; font-size: 14px; font-weight: 500;
+      color: var(--text2); cursor: pointer;
+      box-shadow: 0 2px 12px rgba(139,115,85,0.08); margin-bottom: 12px; transition: background 0.15s;
     }
     .settings-toggle:hover { background: var(--beige); }
     .settings-toggle .icon {
-      width: 28px; height: 28px;
-      background: var(--beige);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
+      width: 28px; height: 28px; background: var(--beige); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
     }
     .settings-toggle .left { display: flex; align-items: center; gap: 10px; }
     .settings-toggle .arrow { font-size: 12px; color: var(--text3); transition: transform 0.2s; }
     .settings-toggle.open .arrow { transform: rotate(180deg); }
 
     .setting-row { margin-bottom: 14px; }
-    .setting-label {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text2);
-      margin-bottom: 6px;
-      display: block;
-    }
+    .setting-label { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; display: block; }
     .setting-input {
-      width: 100%;
-      padding: 12px 14px;
-      font-size: 13px;
-      border: 1.5px solid var(--beige2);
-      border-radius: var(--radius-sm);
-      background: var(--beige);
-      color: var(--text);
-      font-family: 'SF Mono', monospace;
+      width: 100%; padding: 12px 14px; font-size: 13px;
+      border: 1.5px solid var(--beige2); border-radius: var(--radius-sm);
+      background: var(--beige); color: var(--text); font-family: 'SF Mono', monospace;
       transition: border-color 0.15s;
     }
-    .setting-input:focus {
-      outline: none;
-      border-color: var(--accent);
-      background: #fff;
-    }
+    .setting-input:focus { outline: none; border-color: var(--accent); background: #fff; }
 
     .upload-zone {
-      border: 2px dashed var(--beige3);
-      border-radius: var(--radius-md);
-      padding: 36px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: var(--beige);
+      border: 2px dashed var(--beige3); border-radius: var(--radius-md);
+      padding: 36px 20px; text-align: center; cursor: pointer;
+      transition: all 0.2s; background: var(--beige);
     }
-    .upload-zone:hover, .upload-zone.drag {
-      border-color: var(--accent);
-      background: #FDF6EE;
-    }
-    .upload-zone .upload-emoji {
-      font-size: 40px;
-      display: block;
-      margin-bottom: 12px;
-    }
-    .upload-zone .upload-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text);
-    }
-    .upload-zone .upload-sub {
-      font-size: 12px;
-      color: var(--text3);
-      margin-top: 5px;
-      font-weight: 300;
-    }
+    .upload-zone:hover, .upload-zone.drag { border-color: var(--accent); background: #FDF6EE; }
+    .upload-zone .upload-emoji { font-size: 40px; display: block; margin-bottom: 12px; }
+    .upload-zone .upload-title { font-size: 16px; font-weight: 600; color: var(--text); }
+    .upload-zone .upload-sub { font-size: 12px; color: var(--text3); margin-top: 5px; font-weight: 300; }
 
     #preview-img {
-      width: 100%;
-      max-height: 200px;
-      object-fit: contain;
-      border-radius: var(--radius-sm);
-      margin-bottom: 14px;
-      display: none;
-      background: var(--beige);
+      width: 100%; max-height: 200px; object-fit: contain;
+      border-radius: var(--radius-sm); margin-bottom: 14px;
+      display: none; background: var(--beige);
     }
 
     .field-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--beige);
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid var(--beige);
     }
     .field-item:last-of-type { border-bottom: none; }
     .field-icon {
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      background: var(--beige);
+      width: 36px; height: 36px; border-radius: 10px; background: var(--beige);
       display: flex; align-items: center; justify-content: center;
-      font-size: 16px;
-      flex-shrink: 0;
-      margin-top: 2px;
+      font-size: 16px; flex-shrink: 0; margin-top: 2px;
     }
     .field-right { flex: 1; min-width: 0; }
     .field-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text3);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
+      font-size: 11px; font-weight: 600; color: var(--text3);
+      letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px;
     }
     .field-input {
-      width: 100%;
-      padding: 8px 0;
-      font-size: 15px;
-      border: none;
-      border-bottom: 1.5px solid var(--beige2);
-      border-radius: 0;
-      background: transparent;
-      color: var(--text);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-weight: 400;
-      transition: border-color 0.15s;
+      width: 100%; padding: 8px 0; font-size: 15px;
+      border: none; border-bottom: 1.5px solid var(--beige2); border-radius: 0;
+      background: transparent; color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif; font-weight: 400; transition: border-color 0.15s;
     }
-    .field-input:focus {
-      outline: none;
-      border-bottom-color: var(--accent);
-    }
+    .field-input:focus { outline: none; border-bottom-color: var(--accent); }
     .field-input::placeholder { color: var(--beige3); }
-    textarea.field-input {
-      resize: none;
-      min-height: 60px;
-      line-height: 1.6;
-    }
+    textarea.field-input { resize: none; min-height: 60px; line-height: 1.6; }
 
     .chips-wrap { display: flex; flex-wrap: wrap; gap: 7px; padding: 8px 0 4px; }
     .chip {
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      border: 1.5px solid var(--beige2);
-      background: var(--beige);
-      color: var(--text2);
-      font-family: 'Noto Sans KR', sans-serif;
-      transition: all 0.15s;
-      white-space: nowrap;
+      padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 500;
+      cursor: pointer; border: 1.5px solid var(--beige2); background: var(--beige);
+      color: var(--text2); font-family: 'Noto Sans KR', sans-serif;
+      transition: all 0.15s; white-space: nowrap;
     }
     .chip:hover { border-color: var(--accent); color: var(--accent); }
     .chip.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -249,115 +147,56 @@
     .chip[data-val="명함"].selected      { background:#7060C0; border-color:#7060C0; }
     .chip[data-val="기타"].selected      { background:#6B5840; border-color:#6B5840; }
 
-    .check-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 0 4px;
-    }
-    .check-row input[type=checkbox] {
-      width: 20px; height: 20px;
-      cursor: pointer;
-      accent-color: var(--accent);
-      border-radius: 6px;
-    }
-    .check-row label {
-      font-size: 14px;
-      color: var(--text2);
-      cursor: pointer;
-    }
+    .check-row { display: flex; align-items: center; gap: 10px; padding: 12px 0 4px; }
+    .check-row input[type=checkbox] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent); border-radius: 6px; }
+    .check-row label { font-size: 14px; color: var(--text2); cursor: pointer; }
 
     .btn-primary {
-      width: 100%;
-      padding: 16px;
-      font-size: 16px;
-      font-weight: 600;
-      font-family: 'Noto Sans KR', sans-serif;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: background 0.15s, transform 0.1s;
-      letter-spacing: -0.2px;
+      width: 100%; padding: 16px; font-size: 16px; font-weight: 600;
+      font-family: 'Noto Sans KR', sans-serif; background: var(--accent); color: #fff;
+      border: none; border-radius: var(--radius-md); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background 0.15s, transform 0.1s; letter-spacing: -0.2px;
     }
     .btn-primary:hover  { background: var(--accent2); }
     .btn-primary:active { transform: scale(0.98); }
 
     .btn-secondary {
-      width: 100%;
-      padding: 14px;
-      font-size: 14px;
-      font-weight: 500;
-      font-family: 'Noto Sans KR', sans-serif;
-      background: transparent;
-      color: var(--text2);
-      border: 1.5px solid var(--beige2);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all 0.15s;
-      margin-top: 8px;
+      width: 100%; padding: 14px; font-size: 14px; font-weight: 500;
+      font-family: 'Noto Sans KR', sans-serif; background: transparent;
+      color: var(--text2); border: 1.5px solid var(--beige2);
+      border-radius: var(--radius-md); cursor: pointer; transition: all 0.15s; margin-top: 8px;
     }
     .btn-secondary:hover { background: var(--beige); border-color: var(--beige3); }
 
     .btn-save-small {
-      padding: 10px 20px;
-      font-size: 13px;
-      font-weight: 500;
-      font-family: 'Noto Sans KR', sans-serif;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: background 0.15s;
-      margin-top: 4px;
+      padding: 10px 20px; font-size: 13px; font-weight: 500;
+      font-family: 'Noto Sans KR', sans-serif; background: var(--accent); color: #fff;
+      border: none; border-radius: var(--radius-sm); cursor: pointer;
+      transition: background 0.15s; margin-top: 4px;
     }
     .btn-save-small:hover { background: var(--accent2); }
 
     .status {
-      font-size: 13px;
-      padding: 12px 16px;
-      border-radius: var(--radius-sm);
-      margin-top: 12px;
-      line-height: 1.6;
-      font-weight: 400;
+      font-size: 13px; padding: 12px 16px; border-radius: var(--radius-sm);
+      margin-top: 12px; line-height: 1.6; font-weight: 400;
     }
     .status.loading { background: var(--beige); color: var(--text2); }
     .status.success { background: var(--success-bg); color: var(--success-text); }
     .status.error   { background: var(--error-bg);  color: var(--error-text); }
 
     .spinner {
-      display: inline-block;
-      width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,0.4);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      vertical-align: middle;
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
+      border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle;
     }
-    .spinner.dark {
-      border: 2px solid var(--beige2);
-      border-top-color: var(--accent);
-    }
+    .spinner.dark { border: 2px solid var(--beige2); border-top-color: var(--accent); }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .divider { border: none; border-top: 1px solid var(--beige); margin: 16px 0; }
-
     .done-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--success-text);
-      background: var(--success-bg);
-      padding: 3px 10px;
-      border-radius: 999px;
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 600; color: var(--success-text);
+      background: var(--success-bg); padding: 3px 10px; border-radius: 999px;
     }
   </style>
 </head>
@@ -451,7 +290,7 @@
           <div class="field-icon">🏢</div>
           <div class="field-right">
             <div class="field-label">회사 소속명 (Companyname)</div>
-            <input class="field-input" id="f-companyname" placeholder="(주)전주MBC" />
+            <input class="field-input" id="f-companyname" placeholder="(주)전주MBC K-디지털 팀" />
           </div>
         </div>
 
@@ -531,21 +370,21 @@ let imageFile = null;
 let imageMime = 'image/jpeg';
 let selectedCategory = null;
 
+// 지역번호 패턴 (02, 031~064)
+const AREA_CODE = /^0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4])\d/;
+// 휴대폰 패턴 (010~019)
+const MOBILE    = /^01[016789]/;
+
 function handleVFlat(e) {
   e.preventDefault();
   const isIOS     = /iphone|ipad|ipod/i.test(navigator.userAgent);
   const isAndroid = /android/i.test(navigator.userAgent);
-
   if (isIOS) {
     window.location.href = 'vflat://';
-    setTimeout(() => {
-      window.location.href = 'https://apps.apple.com/kr/app/vflat-scan-pdf-scanner/id1494512368';
-    }, 1500);
+    setTimeout(() => { window.location.href = 'https://apps.apple.com/kr/app/vflat-scan-pdf-scanner/id1494512368'; }, 1500);
   } else if (isAndroid) {
     window.location.href = 'vflat://';
-    setTimeout(() => {
-      window.location.href = 'https://play.google.com/store/apps/details?id=com.voyagerx.scanner';
-    }, 1500);
+    setTimeout(() => { window.location.href = 'https://play.google.com/store/apps/details?id=com.voyagerx.scanner'; }, 1500);
   } else {
     alert('vFlat은 모바일 앱이에요. 휴대폰에서 접속해주세요!');
   }
@@ -615,7 +454,7 @@ function handleFile(file) {
     img.style.width = '100%';
     img.style.borderRadius = '10px';
     img.style.marginBottom = '14px';
-    document.getElementById('drop-zone').style.display  = 'none';
+    document.getElementById('drop-zone').style.display    = 'none';
     document.getElementById('preview-card').style.display = 'block';
     document.getElementById('result-section').style.display = 'none';
     document.getElementById('ocr-status').innerHTML = '';
@@ -651,20 +490,37 @@ async function runOCR() {
           role: 'user',
           content: [
             { type: 'image', source: { type: 'base64', media_type: imageMime, data: imageBase64 } },
-            { type: 'text', text: `명함 이미지에서 정보를 추출하세요. 반드시 JSON만 반환, 다른 텍스트 없이.
+            { type: 'text', text: `명함 이미지에서 아래 5개 필드를 추출하세요. JSON만 반환하고 다른 텍스트는 절대 포함하지 마세요.
 
-각 필드의 정확한 의미:
-- name: 이름과 직책 (예: "홍길동 팀장", "김철수 대표이사")
-- companyname: 회사 소속명, 회사 전체 이름 (예: "(주)전주MBC", "OO기업")
-- company: 회사 유선 전화번호. 02-, 031-, 051-, 063- 등 지역번호로 시작하거나 대표번호(FAX 제외). 없으면 빈 문자열.
-- phone: 휴대폰 번호만. 반드시 010-, 011-, 016-, 017-, 018-, 019- 로 시작하는 번호. 없으면 빈 문자열.
-- email: 이메일 주소. 없으면 빈 문자열.
+[필드 정의 - 반드시 정확히 따르세요]
 
-주의: phone과 company(전화)를 절대 혼동하지 마세요.
-- phone = 휴대폰(010으로 시작) 전용
-- company = 회사 유선전화(지역번호로 시작) 전용
+1. name
+   - 사람 이름 + 직책
+   - 예: "홍길동 팀장", "김철수 대표이사"
 
-JSON 형식:
+2. companyname
+   - 회사명과 부서(팀)명을 합쳐서 하나의 문자열로 작성
+   - 형식: "회사명 부서명" (띄어쓰기로 구분)
+   - 부서명이 없으면 회사명만 작성
+   - 예: "(주)전주MBC K-디지털 팀", "OO기업 영업본부", "ABC회사"
+
+3. company
+   - 회사 유선 전화번호만 입력 (지역번호로 시작하는 번호)
+   - 허용 지역번호: 02, 031, 032, 033, 041, 042, 043, 044, 051, 052, 053, 054, 055, 061, 062, 063, 064
+   - FAX 번호는 제외
+   - 없으면 반드시 빈 문자열 ""
+   - ※ 010, 011, 016, 017, 018, 019 로 시작하는 번호는 절대 입력 금지
+
+4. phone
+   - 개인 휴대폰 번호만 입력
+   - 허용 시작번호: 010, 011, 016, 017, 018, 019
+   - 없으면 반드시 빈 문자열 ""
+   - ※ 02, 031 등 지역번호로 시작하는 번호는 절대 입력 금지
+
+5. email
+   - 이메일 주소. 없으면 빈 문자열 ""
+
+[출력 형식 - 이것만 반환]
 {"name":"","companyname":"","company":"","phone":"","email":""}` }
           ]
         }]
@@ -699,10 +555,25 @@ JSON 형식:
       return;
     }
 
+    // JS 단에서 phone/company 뒤바뀜 보정
+    let phone   = (parsed.phone   || '').trim();
+    let company = (parsed.company || '').trim();
+
+    // 휴대폰 번호가 company에 잘못 들어온 경우 → phone으로 이동
+    if (MOBILE.test(company)) {
+      if (!phone) phone = company;
+      company = '';
+    }
+    // 지역번호가 phone에 잘못 들어온 경우 → company로 이동
+    if (AREA_CODE.test(phone)) {
+      if (!company) company = phone;
+      phone = '';
+    }
+
     document.getElementById('f-name').value        = parsed.name        || '';
     document.getElementById('f-companyname').value = parsed.companyname || '';
-    document.getElementById('f-company').value     = parsed.company     || '';
-    document.getElementById('f-phone').value       = parsed.phone       || '';
+    document.getElementById('f-company').value     = company;
+    document.getElementById('f-phone').value       = phone;
     document.getElementById('f-email').value       = parsed.email       || '';
     document.getElementById('f-notes').value       = '';
     document.getElementById('f-card').checked      = true;
@@ -755,7 +626,6 @@ async function sendToNotion() {
 
     saveBtnText.textContent = '노션에 저장 중...';
 
-    // 2. 노션에 저장
     const phone   = document.getElementById('f-phone').value.trim();
     const company = document.getElementById('f-company').value.trim();
     const email   = document.getElementById('f-email').value.trim();
