@@ -17,7 +17,6 @@
 
  <!-- 폰트 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600&display=swap');
@@ -29,6 +28,8 @@
       --beige:   #F2EDE4;
       --beige2:  #E8E0D3;
       --beige3:  #D9CEBF;
+      --brown:   #8B7355;
+      --brown2:  #6B5840;
       --text:    #2C2416;
       --text2:   #7A6A55;
       --text3:   #A89880;
@@ -44,187 +45,349 @@
     }
 
     html { background: var(--cream); }
+
     body {
       font-family: 'Noto Sans KR', -apple-system, sans-serif;
-      background: var(--cream); color: var(--text);
-      min-height: 100vh; padding: 0 0 80px;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 0 0 80px;
     }
 
+    /* 헤더 */
     .app-header {
-      background: var(--beige); border-bottom: 1px solid var(--beige2);
-      padding: 52px 20px 20px; position: sticky; top: 0; z-index: 10;
+      background: var(--beige);
+      border-bottom: 1px solid var(--beige2);
+      padding: 52px 20px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    .app-header h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
-    .app-header p  { font-size: 13px; color: var(--text2); margin-top: 3px; font-weight: 300; }
+    .app-header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.3px;
+    }
+    .app-header p {
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 3px;
+      font-weight: 300;
+    }
 
+    /* 섹션 */
     .section { padding: 0 16px; margin-top: 20px; }
     .section-label {
-      font-size: 11px; font-weight: 600; color: var(--text3);
-      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; padding-left: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      padding-left: 4px;
     }
 
+    /* 카드 */
     .card {
-      background: #fff; border-radius: var(--radius-lg);
-      padding: 18px; box-shadow: 0 2px 12px rgba(139,115,85,0.08); margin-bottom: 12px;
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: 0 2px 12px rgba(139,115,85,0.08);
+      margin-bottom: 12px;
     }
 
+    /* 설정 토글 */
     .settings-toggle {
-      display: flex; align-items: center; justify-content: space-between;
-      width: 100%; background: #fff; border: none; border-radius: var(--radius-md);
-      padding: 14px 18px; font-family: inherit; font-size: 14px; font-weight: 500;
-      color: var(--text2); cursor: pointer;
-      box-shadow: 0 2px 12px rgba(139,115,85,0.08); margin-bottom: 12px; transition: background 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text2);
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(139,115,85,0.08);
+      margin-bottom: 12px;
+      transition: background 0.15s;
     }
     .settings-toggle:hover { background: var(--beige); }
     .settings-toggle .icon {
-      width: 28px; height: 28px; background: var(--beige); border-radius: 8px;
-      display: flex; align-items: center; justify-content: center; font-size: 14px;
+      width: 28px; height: 28px;
+      background: var(--beige);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
     }
     .settings-toggle .left { display: flex; align-items: center; gap: 10px; }
     .settings-toggle .arrow { font-size: 12px; color: var(--text3); transition: transform 0.2s; }
     .settings-toggle.open .arrow { transform: rotate(180deg); }
 
+    /* 설정 입력 */
     .setting-row { margin-bottom: 14px; }
-    .setting-label { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; display: block; }
+    .setting-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .setting-input {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 13px;
+      border: 1.5px solid var(--beige2);
+      border-radius: var(--radius-sm);
+      background: var(--beige);
+      color: var(--text);
+      font-family: 'SF Mono', monospace;
+      transition: border-color 0.15s;
+    }
+    .setting-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: #fff;
+    }
 
-    .cat-manage-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-    .cat-manage-item {
-      display: flex; align-items: center; gap: 6px;
-      background: var(--beige); border: 1.5px solid var(--beige2);
-      border-radius: 999px; padding: 5px 10px 5px 14px;
-      font-size: 13px; font-weight: 500; color: var(--text2);
-    }
-    .cat-manage-item button {
-      background: none; border: none; cursor: pointer;
-      color: var(--text3); font-size: 14px; line-height: 1; padding: 0;
-      display: flex; align-items: center; transition: color 0.15s;
-    }
-    .cat-manage-item button:hover { color: var(--error-text); }
-    .cat-add-row { display: flex; gap: 8px; align-items: center; }
-    .cat-add-input {
-      flex: 1; padding: 10px 12px; font-size: 13px;
-      border: 1.5px solid var(--beige2); border-radius: var(--radius-sm);
-      background: var(--beige); color: var(--text); font-family: 'Noto Sans KR', sans-serif;
-    }
-    .cat-add-input:focus { outline: none; border-color: var(--accent); background: #fff; }
-    .cat-add-btn {
-      padding: 10px 16px; font-size: 13px; font-weight: 600;
-      background: var(--accent); color: #fff; border: none;
-      border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap;
-      font-family: 'Noto Sans KR', sans-serif; transition: background 0.15s;
-    }
-    .cat-add-btn:hover { background: var(--accent2); }
-
+    /* 업로드 존 */
     .upload-zone {
-      border: 2px dashed var(--beige3); border-radius: var(--radius-md);
-      padding: 36px 20px; text-align: center; cursor: pointer;
-      transition: all 0.2s; background: var(--beige);
+      border: 2px dashed var(--beige3);
+      border-radius: var(--radius-md);
+      padding: 36px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--beige);
     }
-    .upload-zone:hover, .upload-zone.drag { border-color: var(--accent); background: #FDF6EE; }
-    .upload-zone .upload-emoji { font-size: 40px; display: block; margin-bottom: 12px; }
-    .upload-zone .upload-title { font-size: 16px; font-weight: 600; color: var(--text); }
-    .upload-zone .upload-sub { font-size: 12px; color: var(--text3); margin-top: 5px; font-weight: 300; }
+    .upload-zone:hover, .upload-zone.drag {
+      border-color: var(--accent);
+      background: #FDF6EE;
+    }
+    .upload-zone .upload-emoji {
+      font-size: 40px;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .upload-zone .upload-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .upload-zone .upload-sub {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 5px;
+      font-weight: 300;
+    }
 
+    /* 미리보기 */
+    #preview-img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+      margin-bottom: 14px;
+      display: none;
+      background: var(--beige);
+    }
+
+    /* 필드 */
     .field-item {
-      display: flex; align-items: flex-start; gap: 12px;
-      padding: 12px 0; border-bottom: 1px solid var(--beige);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--beige);
     }
     .field-item:last-of-type { border-bottom: none; }
     .field-icon {
-      width: 36px; height: 36px; border-radius: 10px; background: var(--beige);
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--beige);
       display: flex; align-items: center; justify-content: center;
-      font-size: 16px; flex-shrink: 0; margin-top: 2px;
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
     }
     .field-right { flex: 1; min-width: 0; }
     .field-label {
-      font-size: 11px; font-weight: 600; color: var(--text3);
-      letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text3);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
     }
     .field-input {
-      width: 100%; padding: 8px 0; font-size: 15px;
-      border: none; border-bottom: 1.5px solid var(--beige2); border-radius: 0;
-      background: transparent; color: var(--text);
-      font-family: 'Noto Sans KR', sans-serif; transition: border-color 0.15s;
+      width: 100%;
+      padding: 8px 0;
+      font-size: 15px;
+      border: none;
+      border-bottom: 1.5px solid var(--beige2);
+      border-radius: 0;
+      background: transparent;
+      color: var(--text);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 400;
+      transition: border-color 0.15s;
     }
-    .field-input:focus { outline: none; border-bottom-color: var(--accent); }
+    .field-input:focus {
+      outline: none;
+      border-bottom-color: var(--accent);
+    }
     .field-input::placeholder { color: var(--beige3); }
-    textarea.field-input { resize: none; min-height: 60px; line-height: 1.6; }
+    textarea.field-input {
+      resize: none;
+      min-height: 60px;
+      line-height: 1.6;
+    }
 
+    /* 카테고리 칩 */
     .chips-wrap { display: flex; flex-wrap: wrap; gap: 7px; padding: 8px 0 4px; }
     .chip {
-      padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 500;
-      cursor: pointer; border: 1.5px solid var(--beige2); background: var(--beige);
-      color: var(--text2); font-family: 'Noto Sans KR', sans-serif;
-      transition: all 0.15s; white-space: nowrap;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1.5px solid var(--beige2);
+      background: var(--beige);
+      color: var(--text2);
+      font-family: 'Noto Sans KR', sans-serif;
+      transition: all 0.15s;
+      white-space: nowrap;
     }
     .chip:hover { border-color: var(--accent); color: var(--accent); }
     .chip.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .chip[data-val="업체"].selected      { background:#D4724A; border-color:#D4724A; }
+    .chip[data-val="기관"].selected      { background:#B85C7A; border-color:#B85C7A; }
+    .chip[data-val="협약기업"].selected   { background:#4A9070; border-color:#4A9070; }
+    .chip[data-val="플랫폼 사업단"].selected { background:#C4894A; border-color:#C4894A; }
+    .chip[data-val="플랫폼 기관"].selected  { background:#4A74B0; border-color:#4A74B0; }
+    .chip[data-val="명함"].selected      { background:#7060C0; border-color:#7060C0; }
+    .chip[data-val="기타"].selected      { background:#6B5840; border-color:#6B5840; }
 
-    .check-row { display: flex; align-items: center; gap: 10px; padding: 12px 0 4px; }
-    .check-row input[type=checkbox] { width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent); }
-    .check-row label { font-size: 14px; color: var(--text2); cursor: pointer; }
+    /* 체크박스 */
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0 4px;
+    }
+    .check-row input[type=checkbox] {
+      width: 20px; height: 20px;
+      cursor: pointer;
+      accent-color: var(--accent);
+      border-radius: 6px;
+    }
+    .check-row label {
+      font-size: 14px;
+      color: var(--text2);
+      cursor: pointer;
+    }
 
+    /* 버튼 */
     .btn-primary {
-      width: 100%; padding: 16px; font-size: 16px; font-weight: 600;
-      font-family: 'Noto Sans KR', sans-serif; background: var(--accent); color: #fff;
-      border: none; border-radius: var(--radius-md); cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       transition: background 0.15s, transform 0.1s;
+      letter-spacing: -0.2px;
     }
     .btn-primary:hover  { background: var(--accent2); }
     .btn-primary:active { transform: scale(0.98); }
 
     .btn-secondary {
-      width: 100%; padding: 14px; font-size: 14px; font-weight: 500;
-      font-family: 'Noto Sans KR', sans-serif; background: transparent;
-      color: var(--text2); border: 1.5px solid var(--beige2);
-      border-radius: var(--radius-md); cursor: pointer; transition: all 0.15s; margin-top: 8px;
+      width: 100%;
+      padding: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: transparent;
+      color: var(--text2);
+      border: 1.5px solid var(--beige2);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 8px;
     }
     .btn-secondary:hover { background: var(--beige); border-color: var(--beige3); }
 
     .btn-save-small {
-      padding: 10px 20px; font-size: 13px; font-weight: 500;
-      font-family: 'Noto Sans KR', sans-serif; background: var(--accent); color: #fff;
-      border: none; border-radius: var(--radius-sm); cursor: pointer;
-      transition: background 0.15s; margin-top: 4px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 4px;
     }
     .btn-save-small:hover { background: var(--accent2); }
 
-    .msg {
-      font-size: 13px; padding: 12px 16px; border-radius: var(--radius-sm);
-      margin-top: 12px; line-height: 1.6;
+    /* 상태 메시지 */
+    .status {
+      font-size: 13px;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      margin-top: 12px;
+      line-height: 1.6;
+      font-weight: 400;
     }
-    .msg.success { background: var(--success-bg); color: var(--success-text); }
-    .msg.error   { background: var(--error-bg);  color: var(--error-text); }
+    .status.loading { background: var(--beige); color: var(--text2); }
+    .status.success { background: var(--success-bg); color: var(--success-text); }
+    .status.error   { background: var(--error-bg);  color: var(--error-text); }
 
+    /* 스피너 */
     .spinner {
-      display: inline-block; width: 16px; height: 16px;
-      border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
-      border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle;
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+    }
+    .spinner.dark {
+      border: 2px solid var(--beige2);
+      border-top-color: var(--accent);
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .done-badge {
-      display: inline-flex; align-items: center; gap: 4px;
-      font-size: 11px; font-weight: 600; color: var(--success-text);
-      background: var(--success-bg); padding: 3px 10px; border-radius: 999px;
-    }
+    /* 구분선 */
+    .divider { border: none; border-top: 1px solid var(--beige); margin: 16px 0; }
 
-    .vflat-btn {
-      display: flex; align-items: center; gap: 12px;
-      background: #fff; border-radius: var(--radius-md);
-      padding: 14px 18px; margin-bottom: 10px;
-      box-shadow: 0 2px 12px rgba(139,115,85,0.08);
-      color: var(--text); cursor: pointer;
-      border: none; width: 100%; font-family: inherit; transition: background 0.15s;
+    /* 뱃지 */
+    .done-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--success-text);
+      background: var(--success-bg);
+      padding: 3px 10px;
+      border-radius: 999px;
     }
-    .vflat-btn:hover { background: var(--beige); }
-    .vflat-btn .icon-wrap {
-      width: 40px; height: 40px; border-radius: 10px; background: var(--beige);
-      display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
-    }
-    .vflat-btn .label { flex: 1; font-size: 14px; font-weight: 600; text-align: left; }
-    .vflat-btn .arrow { font-size: 18px; color: var(--text3); }
   </style>
 </head>
 <body>
@@ -234,25 +397,30 @@
     <p>사진 한 장으로 노션에 바로 저장</p>
   </div>
 
-  <!-- 설정 (카테고리 관리만) -->
+  <!-- 설정 -->
   <div class="section">
     <button class="settings-toggle" id="toggle-btn" onclick="toggleSettings()">
       <div class="left">
         <div class="icon">⚙️</div>
-        <span id="toggle-label">카테고리 설정</span>
+        <span id="toggle-label">노션 연동 설정</span>
       </div>
       <span class="arrow">▼</span>
     </button>
     <div id="settings-panel" style="display:none;" class="card">
       <div class="setting-row">
-        <label class="setting-label">카테고리 관리</label>
-        <div class="cat-manage-wrap" id="cat-manage-list"></div>
-        <div class="cat-add-row">
-          <input class="cat-add-input" id="cat-new-input" placeholder="새 카테고리 입력"
-            onkeydown="if(event.key==='Enter') addCategory()" />
-          <button class="cat-add-btn" onclick="addCategory()">+ 추가</button>
-        </div>
+        <label class="setting-label">Cloudflare Worker URL</label>
+        <input class="setting-input" id="cf-url" type="text" placeholder="https://your-worker.workers.dev" />
       </div>
+      <div class="setting-row">
+        <label class="setting-label">Notion Token</label>
+        <input class="setting-input" id="notion-token" type="password" placeholder="secret_xxxxxxxxxxxxxxxxxxxx" />
+      </div>
+      <div class="setting-row">
+        <label class="setting-label">Database ID</label>
+        <input class="setting-input" id="notion-db" type="text" placeholder="32자리 DB ID" />
+      </div>
+      <button class="btn-save-small" onclick="saveSettings()">저장</button>
+      <div id="settings-status"></div>
     </div>
   </div>
 
@@ -260,11 +428,15 @@
   <div class="section">
     <div class="section-label">명함 촬영</div>
 
-    <button class="vflat-btn" onclick="openVFlat()">
-      <div class="icon-wrap">📄</div>
-      <span class="label">vFlat으로 스캔하기</span>
-      <span class="arrow">→</span>
-    </button>
+    <!-- vFlat 바로가기 -->
+    <a id="vflat-btn" href="vflat://" onclick="handleVFlat(event)"
+      style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:var(--radius-md);padding:14px 18px;margin-bottom:10px;box-shadow:0 2px 12px rgba(139,115,85,0.08);text-decoration:none;color:var(--text);">
+      <div style="width:40px;height:40px;border-radius:10px;background:var(--beige);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">📄</div>
+      <div style="flex:1;">
+        <div style="font-size:14px;font-weight:600;color:var(--text);">vFlat으로 스캔하기</div>
+      </div>
+      <div style="font-size:18px;color:var(--text3);">→</div>
+    </a>
 
     <div class="card" style="padding:0;overflow:hidden;">
       <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleFile(this.files[0])" />
@@ -281,8 +453,8 @@
     </div>
 
     <div id="preview-card" style="display:none;" class="card">
-      <img id="preview-img" style="display:block;width:100%;max-height:180px;object-fit:contain;border-radius:10px;margin-bottom:14px;" />
-      <div id="ocr-msg"></div>
+      <img id="preview-img" style="display:block;" />
+      <div id="ocr-status"></div>
       <button class="btn-primary" onclick="runOCR()" style="margin-top:4px;">
         <span class="spinner" id="ocr-spinner" style="display:none;"></span>
         <span id="ocr-btn-text">✨ AI로 명함 인식하기</span>
@@ -300,7 +472,7 @@
         <div class="field-item">
           <div class="field-icon">👤</div>
           <div class="field-right">
-            <div class="field-label">이름 · 직책 (Name)</div>
+            <div class="field-label">이름 · 직책</div>
             <input class="field-input" id="f-name" placeholder="홍길동 팀장" />
           </div>
         </div>
@@ -308,23 +480,23 @@
         <div class="field-item">
           <div class="field-icon">🏢</div>
           <div class="field-right">
-            <div class="field-label">회사 소속명 (Companyname)</div>
-            <input class="field-input" id="f-companyname" placeholder="(주)전주MBC K-디지털 팀" />
+            <div class="field-label">회사명</div>
+            <input class="field-input" id="f-companyname" placeholder="(주)전주MBC" />
+          </div>
+        </div>
+
+        <div class="field-item">
+          <div class="field-icon">🗂️</div>
+          <div class="field-right">
+            <div class="field-label">부서 / 팀</div>
+            <input class="field-input" id="f-company" placeholder="국비사업부서" />
           </div>
         </div>
 
         <div class="field-item">
           <div class="field-icon">📞</div>
           <div class="field-right">
-            <div class="field-label">회사 번호 (Company)</div>
-            <input class="field-input" id="f-company" placeholder="063-000-0000" />
-          </div>
-        </div>
-
-        <div class="field-item">
-          <div class="field-icon">📱</div>
-          <div class="field-right">
-            <div class="field-label">핸드폰 번호 (Phone)</div>
+            <div class="field-label">전화번호</div>
             <input class="field-input" id="f-phone" placeholder="010-0000-0000" />
           </div>
         </div>
@@ -341,7 +513,15 @@
           <div class="field-icon">🏷️</div>
           <div class="field-right">
             <div class="field-label">카테고리</div>
-            <div class="chips-wrap" id="category-chips"></div>
+            <div class="chips-wrap" id="category-chips">
+              <button class="chip" data-val="업체" onclick="selectChip(this)">업체</button>
+              <button class="chip" data-val="기관" onclick="selectChip(this)">기관</button>
+              <button class="chip" data-val="협약기업" onclick="selectChip(this)">협약기업</button>
+              <button class="chip" data-val="플랫폼 사업단" onclick="selectChip(this)">플랫폼 사업단</button>
+              <button class="chip" data-val="플랫폼 기관" onclick="selectChip(this)">플랫폼 기관</button>
+              <button class="chip" data-val="명함" onclick="selectChip(this)">명함</button>
+              <button class="chip" data-val="기타" onclick="selectChip(this)">기타</button>
+            </div>
           </div>
         </div>
 
@@ -370,114 +550,54 @@
         <span class="spinner" id="save-spinner" style="display:none;"></span>
         <span id="save-btn-text">노션에 저장하기 →</span>
       </button>
+      <button class="btn-secondary" onclick="sendSMS()" style="background:var(--beige);border-color:var(--beige2);display:flex;align-items:center;justify-content:center;gap:8px;">
+        💬 내 명함 문자로 보내기
+      </button>
       <button class="btn-secondary" onclick="resetAll()">처음으로</button>
-      <div id="notion-msg"></div>
+      <div id="notion-status"></div>
     </div>
   </div>
 
 <script>
-  // ┌─────────────────────────────────────────┐
-  // │  여기만 수정하면 돼요!                      │
-  // └─────────────────────────────────────────┘
-  const CF_WORKER_URL = 'https://notion-proxy.abyss9405.workers.dev'; // Cloudflare Worker URL
-  const SECRET_KEY    = 'hyunra2026';                 // Cloudflare 환경변수 SECRET_KEY와 동일하게
-  const NOTION_DB_ID  = '1a16b59b151a802f9d66d46ec7e82e93';              // Notion DB ID
-  // ──────────────────────────────────────────
-
 let imageBase64 = null;
-let imageFile   = null;
-let imageMime   = 'image/jpeg';
+let imageFile = null;
+let imageMime = 'image/jpeg';
 let selectedCategory = null;
 
-const AREA_CODE = /^0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4])\d/;
-const MOBILE    = /^01[016789]/;
-const DEFAULT_CATEGORIES = ['업체','기관','협약기업','사업단','플랫폼 사업단','플랫폼 기관','명함','기타'];
-
-// 공통 fetch 헬퍼 (secret key 헤더 자동 첨부)
-function cfFetch(path, options = {}) {
-  return fetch(`${CF_WORKER_URL}${path}`, {
-    ...options,
-    headers: {
-      ...(options.headers || {}),
-      'X-Secret-Key': SECRET_KEY,
-    }
-  });
-}
-
-/* ── vFlat ── */
-function openVFlat() {
+function handleVFlat(e) {
+  e.preventDefault();
   const isIOS     = /iphone|ipad|ipod/i.test(navigator.userAgent);
   const isAndroid = /android/i.test(navigator.userAgent);
-  if (!isIOS && !isAndroid) { alert('vFlat은 모바일 앱이에요. 휴대폰에서 접속해주세요!'); return; }
 
-  const storeUrl = isIOS
-    ? 'https://apps.apple.com/kr/app/vflat-scan-pdf-scanner/id1494512368'
-    : 'https://play.google.com/store/apps/details?id=com.voyagerx.scanner';
-
-  const iframe = document.createElement('iframe');
-  iframe.style.display = 'none';
-  iframe.src = 'vflat://';
-  document.body.appendChild(iframe);
-  setTimeout(() => {
-    document.body.removeChild(iframe);
-    if (!document.hidden) window.location.href = storeUrl;
-  }, 2000);
+  if (isIOS) {
+    // 앱 딥링크 시도 후 1.5초 안에 앱 안 열리면 앱스토어로
+    window.location.href = 'vflat://';
+    setTimeout(() => {
+      window.location.href = 'https://apps.apple.com/kr/app/vflat-scan-pdf-scanner/id1494512368';
+    }, 1500);
+  } else if (isAndroid) {
+    window.location.href = 'vflat://';
+    setTimeout(() => {
+      window.location.href = 'https://play.google.com/store/apps/details?id=com.voyagerx.scanner';
+    }, 1500);
+  } else {
+    // PC면 그냥 안내
+    alert('vFlat은 모바일 앱이에요. 휴대폰에서 접속해주세요!');
+  }
 }
 
-/* ── 카테고리 ── */
-function getCategories() {
-  const saved = localStorage.getItem('bcard_categories');
-  return saved ? JSON.parse(saved) : [...DEFAULT_CATEGORIES];
-}
-function saveCategories(list) { localStorage.setItem('bcard_categories', JSON.stringify(list)); }
-
-function renderChips() {
-  const wrap = document.getElementById('category-chips');
-  wrap.innerHTML = '';
-  getCategories().forEach(val => {
-    const btn = document.createElement('button');
-    btn.className = 'chip'; btn.dataset.val = val; btn.textContent = val;
-    btn.onclick = () => selectChip(btn);
-    wrap.appendChild(btn);
-  });
-}
-
-function renderCatManage() {
-  const wrap = document.getElementById('cat-manage-list');
-  wrap.innerHTML = '';
-  getCategories().forEach((val, idx) => {
-    const item = document.createElement('div');
-    item.className = 'cat-manage-item';
-    item.innerHTML = `<span>${val}</span><button onclick="removeCategory(${idx})" title="삭제">✕</button>`;
-    wrap.appendChild(item);
-  });
-}
-
-function addCategory() {
-  const input = document.getElementById('cat-new-input');
-  const val = input.value.trim();
-  if (!val) return;
-  const list = getCategories();
-  if (list.includes(val)) { input.value = ''; return; }
-  list.push(val);
-  saveCategories(list);
-  input.value = '';
-  renderCatManage(); renderChips();
-}
-
-function removeCategory(idx) {
-  const list = getCategories();
-  const removed = list[idx];
-  list.splice(idx, 1);
-  saveCategories(list);
-  renderCatManage(); renderChips();
-  if (selectedCategory === removed) selectedCategory = null;
+function getSettings() {
+  return JSON.parse(localStorage.getItem('bcard_settings') || '{}');
 }
 
 function selectChip(el) {
   document.querySelectorAll('#category-chips .chip').forEach(c => c.classList.remove('selected'));
-  if (selectedCategory === el.dataset.val) { selectedCategory = null; }
-  else { el.classList.add('selected'); selectedCategory = el.dataset.val; }
+  if (selectedCategory === el.dataset.val) {
+    selectedCategory = null;
+  } else {
+    el.classList.add('selected');
+    selectedCategory = el.dataset.val;
+  }
 }
 
 function toggleSettings() {
@@ -486,35 +606,79 @@ function toggleSettings() {
   const open = p.style.display === 'none';
   p.style.display = open ? 'block' : 'none';
   btn.classList.toggle('open', open);
-  if (open) renderCatManage();
+  if (open) {
+    const s = getSettings();
+    if (s.cf)       document.getElementById('cf-url').value       = s.cf;
+    if (s.token)    document.getElementById('notion-token').value = s.token;
+    if (s.db)       document.getElementById('notion-db').value    = s.db;
+    if (s.template) document.getElementById('sms-template').value = s.template;
+  }
+}
+
+function saveSettings() {
+  const s = {
+    cf:       document.getElementById('cf-url').value.trim().replace(/\/$/, ''),
+    token:    document.getElementById('notion-token').value.trim(),
+    db:       document.getElementById('notion-db').value.trim(),
+    template: document.getElementById('sms-template').value
+  };
+  localStorage.setItem('bcard_settings', JSON.stringify(s));
+  const el = document.getElementById('settings-status');
+  el.innerHTML = '<div class="status success">✓ 저장되었습니다</div>';
+  setTimeout(() => { el.innerHTML = ''; updateToggleLabel(); }, 1500);
+}
+
+function updateToggleLabel() {
+  const s = getSettings();
+  const label = document.getElementById('toggle-label');
+  if (s.cf && s.token && s.db) {
+    label.innerHTML = '노션 연동 설정 <span class="done-badge">✓ 완료</span>';
+  } else {
+    label.textContent = '노션 연동 설정';
+  }
 }
 
 function handleFile(file) {
   if (!file) return;
-  imageFile = file; imageMime = file.type || 'image/jpeg';
+  imageFile = file;
+  imageMime = file.type || 'image/jpeg';
   const reader = new FileReader();
   reader.onload = e => {
     imageBase64 = e.target.result.split(',')[1];
-    document.getElementById('preview-img').src = e.target.result;
-    document.getElementById('drop-zone').style.display    = 'none';
+    const img = document.getElementById('preview-img');
+    img.src = e.target.result;
+    img.style.maxHeight = '180px';
+    img.style.objectFit = 'contain';
+    img.style.width = '100%';
+    img.style.borderRadius = '10px';
+    img.style.marginBottom = '14px';
+    document.getElementById('drop-zone').style.display  = 'none';
     document.getElementById('preview-card').style.display = 'block';
     document.getElementById('result-section').style.display = 'none';
-    document.getElementById('ocr-msg').innerHTML = '';
+    document.getElementById('ocr-status').innerHTML = '';
   };
   reader.readAsDataURL(file);
 }
 
 async function runOCR() {
   if (!imageBase64) return;
+  const s = getSettings();
+  if (!s.cf) {
+    document.getElementById('ocr-status').innerHTML =
+      '<div class="status error">Worker URL을 먼저 설정해주세요.</div>';
+    toggleSettings();
+    return;
+  }
+
   const spinner = document.getElementById('ocr-spinner');
   const btnText = document.getElementById('ocr-btn-text');
-  const ocrMsg  = document.getElementById('ocr-msg');
+  const status  = document.getElementById('ocr-status');
   spinner.style.display = 'inline-block';
   btnText.textContent = '분석 중...';
-  ocrMsg.innerHTML = '';
+  status.innerHTML = '';
 
   try {
-    const resp = await cfFetch('/v1/messages', {
+    const resp = await fetch(`${s.cf}/v1/messages`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -524,35 +688,16 @@ async function runOCR() {
           role: 'user',
           content: [
             { type: 'image', source: { type: 'base64', media_type: imageMime, data: imageBase64 } },
-            { type: 'text', text: `명함 이미지에서 아래 5개 필드를 추출하세요. JSON만 반환하고 다른 텍스트는 절대 포함하지 마세요.
+            { type: 'text', text: `명함 이미지에서 정보를 추출하세요. 반드시 JSON만 반환, 다른 텍스트 없이.
 
-[필드 정의 - 반드시 정확히 따르세요]
+규칙:
+- name: "이름 직책" 형식 (예: "홍길동 팀장", "김철수 대표이사")
+- companyname: 회사 전체 이름 (예: "(주)전주MBC")
+- company: 부서명 또는 팀명. 없으면 빈 문자열.
+- phone: 전화번호나 휴대폰 중 하나. 여러 개면 첫 번째.
+- email: 이메일 주소. 없으면 빈 문자열.
 
-1. name
-   - 사람 이름 + 직책
-   - 예: "홍길동 팀장", "김철수 대표이사"
-
-2. companyname
-   - 회사명과 부서(팀)명을 합쳐서 하나의 문자열로 작성
-   - 형식: "회사명 부서명" (띄어쓰기로 구분)
-   - 부서명이 없으면 회사명만 작성
-   - 예: "(주)전주MBC K-디지털 팀", "OO기업 영업본부", "ABC회사"
-
-3. company
-   - 회사 유선 전화번호만 입력 (지역번호로 시작하는 번호)
-   - 허용 지역번호: 02, 031, 032, 033, 041, 042, 043, 044, 051, 052, 053, 054, 055, 061, 062, 063, 064
-   - FAX 번호는 제외. 없으면 반드시 빈 문자열 ""
-   - ※ 010, 011, 016, 017, 018, 019 로 시작하는 번호는 절대 입력 금지
-
-4. phone
-   - 개인 휴대폰 번호만 입력. 허용 시작번호: 010, 011, 016, 017, 018, 019
-   - 없으면 반드시 빈 문자열 ""
-   - ※ 02, 031 등 지역번호로 시작하는 번호는 절대 입력 금지
-
-5. email
-   - 이메일 주소. 없으면 빈 문자열 ""
-
-[출력 형식 - 이것만 반환]
+JSON 형식:
 {"name":"","companyname":"","company":"","phone":"","email":""}` }
           ]
         }]
@@ -560,26 +705,37 @@ async function runOCR() {
     });
 
     const rawText = await resp.text();
-    if (!resp.ok) { ocrMsg.innerHTML = `<div class="msg error">API 오류 (${resp.status})</div>`; return; }
+
+    if (!resp.ok) {
+      status.innerHTML = `<div class="status error">API 오류 (${resp.status}): ${rawText}</div>`;
+      return;
+    }
 
     let data;
-    try { data = JSON.parse(rawText); } catch(e) { ocrMsg.innerHTML = `<div class="msg error">응답 파싱 실패</div>`; return; }
-    if (!data.content || !Array.isArray(data.content)) { ocrMsg.innerHTML = `<div class="msg error">예상치 못한 응답</div>`; return; }
+    try { data = JSON.parse(rawText); }
+    catch(e) {
+      status.innerHTML = `<div class="status error">응답 파싱 실패: ${rawText.slice(0,200)}</div>`;
+      return;
+    }
+
+    if (!data.content || !Array.isArray(data.content)) {
+      status.innerHTML = `<div class="status error">예상치 못한 응답: ${JSON.stringify(data).slice(0,200)}</div>`;
+      return;
+    }
 
     const text  = data.content.map(i => i.text || '').join('');
     const clean = text.replace(/```json|```/g, '').trim();
     let parsed;
-    try { parsed = JSON.parse(clean); } catch(e) { ocrMsg.innerHTML = `<div class="msg error">JSON 파싱 실패: ${clean.slice(0,200)}</div>`; return; }
-
-    let phone   = (parsed.phone   || '').trim();
-    let company = (parsed.company || '').trim();
-    if (MOBILE.test(company))  { if (!phone)   phone   = company; company = ''; }
-    if (AREA_CODE.test(phone)) { if (!company) company = phone;   phone   = ''; }
+    try { parsed = JSON.parse(clean); }
+    catch(e) {
+      status.innerHTML = `<div class="status error">JSON 파싱 실패: ${clean.slice(0,200)}</div>`;
+      return;
+    }
 
     document.getElementById('f-name').value        = parsed.name        || '';
     document.getElementById('f-companyname').value = parsed.companyname || '';
-    document.getElementById('f-company').value     = company;
-    document.getElementById('f-phone').value       = phone;
+    document.getElementById('f-company').value     = parsed.company     || '';
+    document.getElementById('f-phone').value       = parsed.phone       || '';
     document.getElementById('f-email').value       = parsed.email       || '';
     document.getElementById('f-notes').value       = '';
     document.getElementById('f-card').checked      = true;
@@ -588,10 +744,10 @@ async function runOCR() {
 
     document.getElementById('result-section').style.display = 'block';
     document.getElementById('result-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    ocrMsg.innerHTML = '<div class="msg success">✓ 인식 완료! 내용을 확인하고 저장하세요.</div>';
+    status.innerHTML = '<div class="status success">✓ 인식 완료! 내용을 확인하고 저장하세요.</div>';
 
   } catch (err) {
-    ocrMsg.innerHTML = `<div class="msg error">오류: ${err.message}</div>`;
+    status.innerHTML = `<div class="status error">오류: ${err.message}</div>`;
   } finally {
     spinner.style.display = 'none';
     btnText.textContent = '✨ AI로 명함 인식하기';
@@ -599,78 +755,116 @@ async function runOCR() {
 }
 
 async function sendToNotion() {
+  const s = getSettings();
+  if (!s.cf || !s.token || !s.db) {
+    document.getElementById('notion-status').innerHTML =
+      '<div class="status error">노션 설정을 먼저 입력해주세요.</div>';
+    toggleSettings();
+    return;
+  }
+
   const saveSpinner = document.getElementById('save-spinner');
   const saveBtnText = document.getElementById('save-btn-text');
-  const notionMsg   = document.getElementById('notion-msg');
+  const statusEl    = document.getElementById('notion-status');
   saveSpinner.style.display = 'inline-block';
   saveBtnText.textContent   = '이미지 업로드 중...';
-  notionMsg.innerHTML = '';
+  statusEl.innerHTML = '';
 
   try {
+    // 1. R2에 이미지 업로드
     let imageUrl = null;
     if (imageFile) {
       const formData = new FormData();
       formData.append('file', imageFile);
-      const imgResp = await cfFetch('/upload/image', { method: 'POST', body: formData });
-      if (imgResp.ok) { const imgData = await imgResp.json(); imageUrl = imgData.url; }
+      const imgResp = await fetch(`${s.cf}/upload/image`, {
+        method: 'POST',
+        body: formData
+      });
+      if (imgResp.ok) {
+        const imgData = await imgResp.json();
+        imageUrl = imgData.url;
+      }
     }
 
     saveBtnText.textContent = '노션에 저장 중...';
 
-    const phone   = document.getElementById('f-phone').value.trim();
-    const company = document.getElementById('f-company').value.trim();
-    const email   = document.getElementById('f-email').value.trim();
+    // 2. 노션에 저장
+    const phone = document.getElementById('f-phone').value.trim();
+    const email = document.getElementById('f-email').value.trim();
 
     const properties = {
       "Name":        { title:     [{ text: { content: document.getElementById('f-name').value        } }] },
       "Companyname": { rich_text: [{ text: { content: document.getElementById('f-companyname').value } }] },
+      "Company":     { rich_text: [{ text: { content: document.getElementById('f-company').value     } }] },
       "Notes":       { rich_text: [{ text: { content: document.getElementById('f-notes').value       } }] },
       "card":        { checkbox: document.getElementById('f-card').checked }
     };
-    if (phone)   properties["Phone"]      = { phone_number: phone };
-    if (company) properties["Company"]    = { phone_number: company };
-    if (email)   properties["Email"]      = { email: email };
+    if (phone) properties["Phone"]    = { phone_number: phone };
+    if (email) properties["Email"]    = { email: email };
     if (selectedCategory) properties["Category"] = { select: { name: selectedCategory } };
     if (imageUrl) properties["Card Image"] = { files: [{ type: "external", name: "card.jpg", external: { url: imageUrl } }] };
 
-    const resp = await cfFetch('/v1/pages', {
+    const resp = await fetch(`${s.cf}/v1/pages`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ parent: { database_id: NOTION_DB_ID }, properties })
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Notion-Token': s.token
+      },
+      body: JSON.stringify({ parent: { database_id: s.db }, properties })
     });
 
     if (resp.ok) {
-      notionMsg.innerHTML = '<div class="msg success">✓ 노션에 저장되었습니다!' + (imageUrl ? ' (이미지 포함)' : '') + '</div>';
-      setTimeout(() => { if (confirm('저장 완료! 다음 명함을 등록할까요?')) resetAll(); }, 800);
+      statusEl.innerHTML = '<div class="status success">✓ 노션에 저장되었습니다!' + (imageUrl ? ' (이미지 포함)' : '') + '</div>';
+      setTimeout(() => {
+        if (confirm('저장 완료! 다음 명함을 등록할까요?')) resetAll();
+      }, 800);
     } else {
       const err = await resp.json();
-      notionMsg.innerHTML = `<div class="msg error">노션 오류: ${err.message || resp.status}</div>`;
+      statusEl.innerHTML = `<div class="status error">노션 오류: ${err.message || resp.status}</div>`;
     }
   } catch (err) {
-    notionMsg.innerHTML = `<div class="msg error">오류: ${err.message}</div>`;
+    statusEl.innerHTML = `<div class="status error">오류: ${err.message}</div>`;
   } finally {
     saveSpinner.style.display = 'none';
     saveBtnText.textContent   = '노션에 저장하기 →';
   }
 }
 
+function sendSMS() {
+  const phone = document.getElementById('f-phone').value.trim();
+  if (!phone) {
+    alert('인식된 전화번호가 없어요. 직접 입력해주세요!');
+    return;
+  }
+  const s = getSettings();
+  const template = s.template || '';
+  if (!template) {
+    alert('설정에서 내 명함 문자 템플릿을 먼저 입력해주세요!');
+    toggleSettings();
+    return;
+  }
+  // 번호에서 하이픈/공백 제거
+  const cleanPhone = phone.replace(/[^0-9]/g, '');
+  const encoded = encodeURIComponent(template);
+  window.location.href = `sms:${cleanPhone}?body=${encoded}`;
+}
+
 function resetAll() {
-  imageBase64 = null; imageFile = null; selectedCategory = null;
+  imageBase64 = null;
+  imageFile = null;
+  selectedCategory = null;
   document.getElementById('preview-img').src              = '';
   document.getElementById('drop-zone').style.display      = 'block';
   document.getElementById('preview-card').style.display   = 'none';
   document.getElementById('result-section').style.display = 'none';
-  document.getElementById('ocr-msg').innerHTML            = '';
-  document.getElementById('notion-msg').innerHTML         = '';
+  document.getElementById('ocr-status').innerHTML         = '';
+  document.getElementById('notion-status').innerHTML      = '';
   document.getElementById('file-input').value             = '';
   document.querySelectorAll('#category-chips .chip').forEach(c => c.classList.remove('selected'));
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  renderChips();
-  renderCatManage();
-});
+window.addEventListener('DOMContentLoaded', updateToggleLabel);
 </script>
 </body>
 </html>
